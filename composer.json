@@ -1,11 +1,16 @@
 {
-    "name": "laravel/laravel",
+    "name": "hexlet/code",
     "type": "project",
-    "description": "The Laravel Framework.",
-    "keywords": ["framework", "laravel"],
+    "description": "4th Hexlet project",
     "license": "MIT",
+    "authors": [
+        {
+            "name": "Andrey Frolov",
+            "email": "internet.buro@gmail.com"
+        }
+    ],
     "require": {
-        "php": "^8.0.2",
+        "php": "^8.1.2",
         "guzzlehttp/guzzle": "^7.2",
         "laravel/framework": "^9.19",
         "laravel/sanctum": "^3.0",
