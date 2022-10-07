@@ -2,11 +2,11 @@ start:
 	php artisan serve
 
 push:
-    git push -u origin main
+	git push -u origin main
 
 setup:
 	composer install
-	cp -n .env.example .env
+	cp -n .env.production .env
 	php artisan key:gen --ansi
 	npm ci
 	npm run build
