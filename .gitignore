@@ -6,12 +6,12 @@
 /vendor
 .env
 .env.backup
-.env.production
 .phpunit.result.cache
 Homestead.json
 Homestead.yaml
 auth.json
 npm-debug.log
 yarn-error.log
+phpstan.neon
 /.idea
 /.vscode
