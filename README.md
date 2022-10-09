@@ -9,8 +9,8 @@ The app gets status code, title, h1 and description of page. And save this data.
 ### Additional tests:
 [![linter-check](https://github.com/62ng/php-project-57/actions/workflows/linter-check.yml/badge.svg)](https://github.com/62ng/php-project-57/actions/workflows/lint-check.yml)
 [![tests-check](https://github.com/62ng/php-project-57/actions/workflows/tests-check.yml/badge.svg)](https://github.com/62ng/php-project-57/actions/workflows/tests-check.yml)
-[![Maintainability](https://api.codeclimate.com/v1/badges/59b71870edf049dc3a74/maintainability)](https://codeclimate.com/github/62ng/php-project-57/maintainability)
-[![Test Coverage](https://api.codeclimate.com/v1/badges/59b71870edf049dc3a74/test_coverage)](https://codeclimate.com/github/62ng/php-project-57/test_coverage)
+[![Maintainability](https://api.codeclimate.com/v1/badges/f4aaa540350bc0dc3c0b/maintainability)](https://codeclimate.com/github/62ng/php-project-57/maintainability)
+[![Test Coverage](https://api.codeclimate.com/v1/badges/f4aaa540350bc0dc3c0b/test_coverage)](https://codeclimate.com/github/62ng/php-project-57/test_coverage)
 
 ### Demo
 
