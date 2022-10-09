@@ -14,6 +14,6 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    \Log::debug('Test debug message');
+    \Log::debug('Test heroku debug message');
     return view('welcome');
 });
