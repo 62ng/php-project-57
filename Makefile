@@ -6,7 +6,7 @@ push:
 
 setup:
 	composer install
-	cp -n .env.production .env
+	cp -n .env.tests .env
 	php artisan key:gen --ansi
 	npm ci
 	npm run build
