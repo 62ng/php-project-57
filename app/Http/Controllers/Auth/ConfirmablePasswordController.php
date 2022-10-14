@@ -34,6 +34,8 @@ class ConfirmablePasswordController extends Controller
             'password' => $request->password,
                 ])
         ) {
+            flash(__('auth.password'));
+
             throw ValidationException::withMessages([
                 'password' => __('auth.password'),
             ]);
