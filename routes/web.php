@@ -21,4 +21,6 @@ Route::get('/dashboard', function () {
     return view('dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
 
+Route::resource('/task_statuses', \App\Http\Controllers\TaskStatusController::class);
+
 require __DIR__.'/auth.php';
