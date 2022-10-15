@@ -3,15 +3,17 @@
 namespace Tests\Feature;
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
+
 
 class TaskStatusControllerTest extends TestCase
 {
-    public function test_example()
-    {
-        $response = $this->get('/');
+    use RefreshDatabase;
 
-        $response->assertStatus(200);
+    public function testIndex(): void
+    {
+        $response = $this->get(route('task_statuses.index'));
+
+        $response->assertOk();
     }
 }

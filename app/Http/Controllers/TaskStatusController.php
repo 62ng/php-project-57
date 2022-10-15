@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\TaskStatus;
 use Illuminate\Http\Request;
+use Illuminate\View\View;
 
 class TaskStatusController extends Controller
 {
@@ -12,9 +13,13 @@ class TaskStatusController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(): View
     {
-        //
+        $statuses = TaskStatus::all()->toArray();
+//        $statuses= DB::table('task_statuses')->paginate(15);
+        dump($statuses);
+
+        return view('task_statuses.index', [compact($statuses)]);
     }
 
     /**

@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\TaskStatusController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -21,6 +22,6 @@ Route::get('/dashboard', function () {
     return view('dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
 
-Route::resource('/task_statuses', \App\Http\Controllers\TaskStatusController::class);
+Route::resource('task_statuses', TaskStatusController::class);
 
 require __DIR__.'/auth.php';
