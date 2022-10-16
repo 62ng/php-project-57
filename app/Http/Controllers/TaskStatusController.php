@@ -11,25 +11,13 @@ use Illuminate\View\View;
 
 class TaskStatusController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return Response
-     */
     public function index(): View
     {
         $statuses = TaskStatus::all()->toArray();
-//        $statuses= DB::table('task_statuses')->paginate(15);
-        dump($statuses);
 
-        return view('task_statuses.index', [compact($statuses)]);
+        return view('task_statuses.index', compact('statuses'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return Response
-     */
     public function create(Request $request): View
     {
         return view('task_statuses.create');
