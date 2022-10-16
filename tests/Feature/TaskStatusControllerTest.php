@@ -17,7 +17,14 @@ class TaskStatusControllerTest extends TestCase
         $response->assertOk();
     }
 
-    public function  testCreate(): void
+    public function testCreate(): void
+    {
+        $response = $this->get(route('task_statuses.create'));
+
+        $response->assertOk();
+    }
+
+    public function  testStore(): void
     {
         $statusName = 'Example';
         $this->post(route('task_statuses.index'), [
