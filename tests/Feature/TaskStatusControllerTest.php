@@ -20,7 +20,7 @@ class TaskStatusControllerTest extends TestCase
     public function  testCreate(): void
     {
         $statusName = 'Example';
-        $response = $this->post(route('task_statuses.create'), [
+        $this->post(route('task_statuses.index'), [
             'name' => $statusName,
         ]);
 
