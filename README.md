@@ -7,7 +7,7 @@ The app gets status code, title, h1 and description of page. And save this data.
 [![Actions Status](https://github.com/62ng/php-project-57/workflows/hexlet-check/badge.svg)](https://github.com/62ng/php-project-57/actions)
 
 ### Additional tests:
-[![linter-check](https://github.com/62ng/php-project-57/actions/workflows/linter-check.yml/badge.svg)](https://github.com/62ng/php-project-57/actions/workflows/lint-check.yml)
+[![linter-check](https://github.com/62ng/php-project-57/actions/workflows/linter-check.yml/badge.svg)](https://github.com/62ng/php-project-57/actions/workflows/linter-check.yml)
 [![tests-check](https://github.com/62ng/php-project-57/actions/workflows/tests-check.yml/badge.svg)](https://github.com/62ng/php-project-57/actions/workflows/tests-check.yml)
 [![Maintainability](https://api.codeclimate.com/v1/badges/f4aaa540350bc0dc3c0b/maintainability)](https://codeclimate.com/github/62ng/php-project-57/maintainability)
 [![Test Coverage](https://api.codeclimate.com/v1/badges/f4aaa540350bc0dc3c0b/test_coverage)](https://codeclimate.com/github/62ng/php-project-57/test_coverage)
