@@ -57,7 +57,7 @@ class TaskStatusController extends Controller
         return view('task_statuses.edit', compact('taskStatus'));
     }
 
-    public function update(Request $request, TaskStatus $taskStatus)
+    public function update(Request $request, TaskStatus $taskStatus): RedirectResponse
     {
         $validator = Validator::make(
             $request->all(),
@@ -89,8 +89,10 @@ class TaskStatusController extends Controller
         return redirect(route('task_statuses.index'));
     }
 
-    public function destroy(TaskStatus $taskStatus)
+    public function destroy(TaskStatus $taskStatus): RedirectResponse
     {
-        //
+        $taskStatus->delete();
+
+        return redirect(route('task_statuses.index'));
     }
 }

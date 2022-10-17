@@ -4,6 +4,7 @@ namespace Tests\Feature;
 
 use App\Models\TaskStatus;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\View\View;
 use SebastianBergmann\Type\VoidType;
 use Tests\TestCase;
 
@@ -66,5 +67,17 @@ class TaskStatusControllerTest extends TestCase
         $this->assertDatabaseHas('task_statuses', [
             'name' => $statusNewName,
         ]);
+    }
+
+    public function testDestroy(): void
+    {
+        $statusName = 'Example';
+        $status = new TaskStatus();
+        $status->name = $statusName;
+        $status->save();
+
+        $this->delete(route('task_statuses.destroy', $status->id));
+
+        $this->assertModelMissing($status);
     }
 }

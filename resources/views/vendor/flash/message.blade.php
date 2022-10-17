@@ -1,4 +1,5 @@
 @foreach (session('flash_notification', collect())->toArray() as $message)
+    @php(dump($message))
     @if ($message['overlay'])
         @include('flash::modal', [
             'modalClass' => 'flash-modal',
@@ -11,14 +12,9 @@
                     {{ $message['important'] ? 'alert-important' : '' }}"
                     role="alert"
         >
-            @if ($message['important'])
-                <button type="button"
-                        class="close"
-                        data-dismiss="alert"
-                        aria-hidden="true"
-                >&times;</button>
+            @if ($message['level'] !== 'success')
+                <div>Упс! Что-то пошло не так:</div>
             @endif
-            <div>Упс! Что-то пошло не так:</div>
             {!! $message['message'] !!}
         </div>
     @endif

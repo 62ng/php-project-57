@@ -13,9 +13,9 @@ return [
     |
     */
 
-    'required' => 'Нужен да',
+    'required' => 'Это обязательное поле',
     'unique' => 'Статус с таким именем уже существует',
-    'max' => 'Макс',
+    'max' => 'The name must not be greater than 255 characters.',
 
     'status_added' => 'Статус успешно добавлен',
     'status_updated' => 'Статус успешно изменён',
