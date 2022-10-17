@@ -73,9 +73,9 @@ class TaskStatusController extends Controller
      * @param  \App\Models\TaskStatus  $taskStatus
      * @return Response
      */
-    public function edit(TaskStatus $taskStatus)
+    public function edit(TaskStatus $taskStatus): View
     {
-        //
+        return view('task_statuses.edit', compact('taskStatus'));
     }
 
     /**
