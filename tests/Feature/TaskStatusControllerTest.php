@@ -38,6 +38,18 @@ class TaskStatusControllerTest extends TestCase
         ]);
     }
 
+    public function testEdit(): void
+    {
+        $statusName = 'Example';
+        $status = new TaskStatus();
+        $status->name = $statusName;
+        $status->save();
+
+        $response = $this->get(route('task_statuses.edit', $status->id));
+
+        $response->assertOk();
+    }
+
     public function testUpdate(): void
     {
         $statusOldName = 'OldName';

@@ -7,6 +7,7 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Validation\Rule;
 use Illuminate\View\View;
 
 class TaskStatusController extends Controller
@@ -23,12 +24,6 @@ class TaskStatusController extends Controller
         return view('task_statuses.create');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return Response
-     */
     public function store(Request $request): RedirectResponse
     {
         $validator = Validator::make(
@@ -53,49 +48,47 @@ class TaskStatusController extends Controller
         $taskStatus->name = $validator->validated()['name'];
         $taskStatus->save();
 
+        flash(__('tasks.status_added'));
+
         return redirect(route('task_statuses.index'));
     }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\TaskStatus  $taskStatus
-     * @return Response
-     */
-    public function show(TaskStatus $taskStatus)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\TaskStatus  $taskStatus
-     * @return Response
-     */
     public function edit(TaskStatus $taskStatus): View
     {
         return view('task_statuses.edit', compact('taskStatus'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\TaskStatus  $taskStatus
-     * @return Response
-     */
     public function update(Request $request, TaskStatus $taskStatus)
     {
-        //
+        $validator = Validator::make(
+            $request->all(),
+            [
+                'name' => [
+                    'required',
+                    Rule::unique('task_statuses')->ignore($taskStatus->id),
+                    'max:255',
+                ]
+            ],
+            [
+                'required' => __('tasks.required'),
+                'unique' => __('tasks.unique'),
+                'max' => __('tasks.max'),
+            ]
+        );
+
+        if ($validator->fails()) {
+            flash($validator->errors()->first('name'));
+
+            return redirect(route('task_statuses.create'));
+        }
+
+        $taskStatus->name = $validator->validated()['name'];
+        $taskStatus->save();
+
+        flash(__('tasks.status_updated'))->success();
+
+        return redirect(route('task_statuses.index'));
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\TaskStatus  $taskStatus
-     * @return Response
-     */
     public function destroy(TaskStatus $taskStatus)
     {
         //
