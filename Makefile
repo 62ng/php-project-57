@@ -13,6 +13,7 @@ setup:
 
 migrate:
 	php artisan migrate
+	php artisan db:seed --class=TaskStatusesSeeder
 
 deploy:
 	git push heroku main
