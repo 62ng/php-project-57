@@ -4,14 +4,26 @@ namespace Tests\Feature;
 
 use App\Models\TaskStatus;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\View\View;
-use SebastianBergmann\Type\VoidType;
 use Tests\TestCase;
 
 
 class TaskStatusControllerTest extends TestCase
 {
     use RefreshDatabase;
+
+    public string $statusName;
+    public object $status;
+
+    public function setUp(): void
+    {
+        parent::setUp();
+
+        $this->statusName = 'Example status name';
+
+        $this->status = new TaskStatus();
+        $this->status->name = $this->statusName;
+        $this->status->save();
+    }
 
     public function testIndex(): void
     {
@@ -29,38 +41,28 @@ class TaskStatusControllerTest extends TestCase
 
     public function testStore(): void
     {
-        $statusName = 'Example';
+        $statusNameToStore = 'Example status name to store';
         $this->post(route('task_statuses.store'), [
-            'name' => $statusName,
+            'name' => $statusNameToStore,
         ]);
 
         $this->assertDatabaseHas('task_statuses', [
-            'name' => $statusName,
+            'name' => $statusNameToStore,
         ]);
     }
 
     public function testEdit(): void
     {
-        $statusName = 'Example';
-        $status = new TaskStatus();
-        $status->name = $statusName;
-        $status->save();
-
-        $response = $this->get(route('task_statuses.edit', $status->id));
+        $response = $this->get(route('task_statuses.edit', $this->status->id));
 
         $response->assertOk();
     }
 
     public function testUpdate(): void
     {
-        $statusOldName = 'OldName';
-        $statusNewName = 'NewName';
+        $statusNewName = 'Example status name to update';
 
-        $status = new TaskStatus();
-        $status->name = $statusOldName;
-        $status->save();
-
-        $this->put(route('task_statuses.update', $status->id), [
+        $this->put(route('task_statuses.update', $this->status->id), [
             'name' => $statusNewName,
         ]);
 
@@ -71,13 +73,8 @@ class TaskStatusControllerTest extends TestCase
 
     public function testDestroy(): void
     {
-        $statusName = 'Example';
-        $status = new TaskStatus();
-        $status->name = $statusName;
-        $status->save();
+        $this->delete(route('task_statuses.destroy', $this->status->id));
 
-        $this->delete(route('task_statuses.destroy', $status->id));
-
-        $this->assertModelMissing($status);
+        $this->assertModelMissing($this->status);
     }
 }
