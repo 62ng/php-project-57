@@ -1,4 +1,5 @@
 import _ from 'lodash';
+import * as bootstrap from 'bootstrap';
 window._ = _;
 
 /**
