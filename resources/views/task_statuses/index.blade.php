@@ -1,14 +1,13 @@
-@extends('layouts.app')
+@extends('layout')
 
 @section('token')
-    <meta name="csrf-token" content="<?= csrf_token() ?>"/>
-    <meta name="csrf-param" content="_token"/>
+    <meta name="csrf-token" content="<?= csrf_token() ?>" />
+    <meta name="csrf-param" content="_token" />
 @endsection
 
 @section('content')
     <h1>Статусы</h1>
-    <a class="btn btn-outline-primary mt-3 mb-3" href="{{ route('task_statuses.create') }}" role="button">Создать
-        статус</a>
+    <a class="btn btn-outline-primary mt-3 mb-3" href="{{ route('task_statuses.create') }}" role="button">Создать статус</a>
 
     @include('flash::message')
 
@@ -28,8 +27,7 @@
                 <td>{{ $status['name'] }}</td>
                 <td>{{ $status['updated_at'] }}</td>
                 <td>
-                    <a href="{{ route('task_statuses.destroy', $status['id']) }}" data-confirm="Вы уверены?"
-                       data-method="delete" rel="nofollow">Удалить</a>
+                    <a href="{{ route('task_statuses.destroy', $status['id']) }}" data-confirm="Вы уверены?" data-method="delete" rel="nofollow">Удалить</a>
                     <a href="{{ route('task_statuses.edit', $status['id']) }}">Изменить</a>
                 </td>
             </tr>
