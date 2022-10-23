@@ -3,6 +3,7 @@
 namespace Tests\Feature;
 
 use App\Models\TaskStatus;
+use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
@@ -36,13 +37,19 @@ class TaskStatusControllerTest extends TestCase
     {
         $response = $this->get(route('task_statuses.create'));
 
+        $response->assertForbidden();
+
+        $user = User::factory()->create();
+        $response = $this->actingAs($user)->get(route('task_statuses.create'));
+
         $response->assertOk();
     }
 
     public function testStore(): void
     {
         $statusNameToStore = 'Example status name to store';
-        $this->post(route('task_statuses.store'), [
+        $user = User::factory()->create();
+        $this->actingAs($user)->post(route('task_statuses.store'), [
             'name' => $statusNameToStore,
         ]);
 
@@ -55,14 +62,19 @@ class TaskStatusControllerTest extends TestCase
     {
         $response = $this->get(route('task_statuses.edit', $this->status->id));
 
+        $response->assertForbidden();
+
+        $user = User::factory()->create();
+        $response = $this->actingAs($user)->get(route('task_statuses.edit', $this->status->id));
+
         $response->assertOk();
     }
 
     public function testUpdate(): void
     {
         $statusNewName = 'Example status name to update';
-
-        $this->put(route('task_statuses.update', $this->status->id), [
+        $user = User::factory()->create();
+        $this->actingAs($user)->put(route('task_statuses.update', $this->status->id), [
             'name' => $statusNewName,
         ]);
 
@@ -73,7 +85,8 @@ class TaskStatusControllerTest extends TestCase
 
     public function testDestroy(): void
     {
-        $this->delete(route('task_statuses.destroy', $this->status->id));
+        $user = User::factory()->create();
+        $this->actingAs($user)->delete(route('task_statuses.destroy', $this->status->id));
 
         $this->assertModelMissing($this->status);
     }
