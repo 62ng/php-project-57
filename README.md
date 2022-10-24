@@ -1,7 +1,7 @@
-# Page analyzer
+# Task manager
 
 ### Description
-The app gets status code, title, h1 and description of page. And save this data.
+The app manage tasks with statuses and labels.
 
 ### Hexlet tests and linter status:
 [![Actions Status](https://github.com/62ng/php-project-57/workflows/hexlet-check/badge.svg)](https://github.com/62ng/php-project-57/actions)
