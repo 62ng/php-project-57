@@ -8,8 +8,11 @@
                 <div class="card-header">Привет!</div>
 
                 <div class="card-body">
+
                     Это простой менеджер задач на Laravel
+
                 </div>
+
             </div>
         </div>
     </div>

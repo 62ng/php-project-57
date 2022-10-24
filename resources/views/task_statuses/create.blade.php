@@ -9,15 +9,15 @@
 
                     <div class="card-body">
 
-                        <form method="POST" action="{{ route('task_statuses.index') }}">
-                            @csrf
+                        {!! Form::open(['route' => 'task_statuses.index']) !!}
                             @include('flash::message')
-                            <label>Имя</label>
-                            <input type="text" name="name" value="{{ old('name') }}">
-                            <input type="submit" value="Содать">
-                        </form>
+                            {{ Form::label('name', 'Имя') }}
+                            {{ Form::text('name', old('name')) }}
+                            {{ Form::submit('Создать') }}
+                        {!! Form::close() !!}
 
                     </div>
+
                 </div>
             </div>
         </div>

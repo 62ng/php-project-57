@@ -9,16 +9,15 @@
 
                     <div class="card-body">
 
-                        <form method="POST" action="{{ route('task_statuses.update', $taskStatus->id) }}">
-                            @csrf
-                            @method('patch')
+                        {!! Form::open(['route' => ['task_statuses.update', $taskStatus->id], 'method' => 'patch']) !!}
                             @include('flash::message')
-                            <label>Имя</label>
-                            <input type="text" name="name" value="{{ old('name') ?? $taskStatus->name }}">
-                            <input type="submit" value="Обновить">
-                        </form>
+                            {{ Form::label('name', 'Имя') }}
+                            {{ Form::text('name', old('name') ?? $taskStatus->name) }}
+                            {{ Form::submit('Обновить') }}
+                        {!! Form::close() !!}
 
                     </div>
+
                 </div>
             </div>
         </div>
