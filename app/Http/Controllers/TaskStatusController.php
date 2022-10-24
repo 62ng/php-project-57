@@ -53,10 +53,11 @@ class TaskStatusController extends Controller
         $taskStatus->name = $validator->validated()['name'];
         $taskStatus->save();
 
-        flash(__('tasks.status_added'));
+        flash(__('tasks.status_added'))->success();
 
         return redirect(route('task_statuses.index'));
     }
+
     public function edit(TaskStatus $taskStatus): View
     {
         Gate::allowIf(fn () => Auth::check());
@@ -103,6 +104,8 @@ class TaskStatusController extends Controller
         Gate::allowIf(fn () => Auth::check());
 
         $taskStatus->delete();
+
+        flash(__('tasks.status_deleted'))->success();
 
         return redirect(route('task_statuses.index'));
     }
