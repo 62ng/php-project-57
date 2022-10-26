@@ -22,6 +22,15 @@ class TaskController extends Controller
         return view('tasks.index', compact('tasks'));
     }
 
+    public function show(Task $task): View
+    {
+        $statuses = TaskStatus::all()->mapWithKeys(function ($item, $key) {
+            return [$item['id'] => $item['name']];
+        })->toArray();
+
+        return view('tasks.show', compact('task', 'statuses'));
+    }
+
     public function create(): View
     {
         Gate::allowIf(fn () => Auth::check());
@@ -45,6 +54,7 @@ class TaskController extends Controller
             $request->all(),
             [
                 'name' => 'required|unique:tasks|max:255',
+                'description' => 'max:1000',
                 'status_id' => 'required|integer|min:1',
                 'assigned_to_id' => 'integer',
             ],
@@ -76,7 +86,15 @@ class TaskController extends Controller
     {
         Gate::allowIf(fn () => Auth::check());
 
-        return view('tasks.edit', compact('task'));
+        $statuses = TaskStatus::all()->mapWithKeys(function ($item, $key) {
+            return [$item['id'] => $item['name']];
+        })->toArray();
+
+        $users = User::all()->mapWithKeys(function ($item, $key) {
+            return [$item['id'] => $item['name']];
+        })->toArray();
+
+        return view('tasks.edit', compact('task', 'statuses', 'users'));
     }
 
     public function update(Request $request, Task $task): RedirectResponse
@@ -90,10 +108,14 @@ class TaskController extends Controller
                     'required',
                     Rule::unique('tasks')->ignore($task->id),
                     'max:255',
-                ]
+                ],
+                'description' => 'max:1000',
+                'status_id' => 'required|integer|min:1',
+                'assigned_to_id' => 'integer',
             ],
             [
                 'required' => __('tasks.required'),
+                'min' => __('tasks.required'),
                 'unique' => __('tasks.unique'),
                 'max' => __('tasks.max'),
             ]
@@ -105,7 +127,7 @@ class TaskController extends Controller
             return redirect(route('tasks.create'));
         }
 
-        $task->name = $validator->validated()['name'];
+        $task->fill($validator->validated());
         $task->save();
 
         flash(__('tasks.task_updated'))->success();

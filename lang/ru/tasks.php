@@ -15,9 +15,14 @@ return [
 
     'required' => 'Это обязательное поле',
     'unique' => 'Статус с таким именем уже существует',
+    'min' => 'Check your data.',
     'max' => 'The name must not be greater than 255 characters.',
 
     'status_added' => 'Статус успешно добавлен',
     'status_updated' => 'Статус успешно изменён',
     'status_deleted' => 'Статус успешно удалён',
+
+    'task_added' => 'Задача успешно создана',
+    'task_updated' => 'Задача успешно изменена',
+    'task_deleted' => 'Задача успешно удалена',
 ];

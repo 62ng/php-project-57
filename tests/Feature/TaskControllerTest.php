@@ -12,6 +12,7 @@ class TaskControllerTest extends TestCase
 {
     use RefreshDatabase;
 
+    public string $statusName;
     public object $task;
 
     public function setUp(): void
@@ -35,6 +36,13 @@ class TaskControllerTest extends TestCase
     public function testIndex(): void
     {
         $response = $this->get(route('tasks.index'));
+
+        $response->assertOk();
+    }
+
+    public function testShow(): void
+    {
+        $response = $this->get(route('tasks.show', $this->task->id));
 
         $response->assertOk();
     }
@@ -83,13 +91,17 @@ class TaskControllerTest extends TestCase
     public function testUpdate(): void
     {
         $taskNewName = 'Example task name to update';
-        $user = User::factory()->create();
+        $user = User::find($this->task->created_by_id);
         $this->actingAs($user)->put(route('tasks.update', $this->task->id), [
             'name' => $taskNewName,
+            'status_id' => 1,
+            'created_by_id' => $user->id,
         ]);
 
         $this->assertDatabaseHas('tasks', [
             'name' => $taskNewName,
+            'status_id' => 1,
+            'created_by_id' => $user->id,
         ]);
     }
 }

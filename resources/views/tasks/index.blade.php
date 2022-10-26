@@ -30,15 +30,17 @@
                             <tbody>
                                 @foreach($tasks as $task)
                                     <tr>
-                                        <th scope="row">{{ $task['id'] }}</th>
-                                        <td>{{ $task->status }}</td>
-                                        <td>{{ $task['name'] }}</td>
-                                        <td>{{ $task['creator'] }}</td>
-                                        <td>{{ $task['assignee'] }}</td>
-                                        <td>{{ date('d.m.Y', strtotime($task['created_at'])) }}</td>
+                                        <th scope="row">{{ $task->id }}</th>
+                                        <td>{{ $task->status->name }}</td>
+                                        <td>
+                                            <a href="{{ route('tasks.show', $task->id) }}">{{ $task->name }}</a>
+                                        </td>
+                                        <td>{{ $task->creator->name }}</td>
+                                        <td>{{ $task->assignee->name }}</td>
+                                        <td>{{ date('d.m.Y', strtotime($task->created_at)) }}</td>
                                         <td>
                                             @auth
-                                                <a href="{{ route('tasks.edit', $task['id']) }}">Изменить</a>
+                                                <a href="{{ route('tasks.edit', $task->id) }}">Изменить</a>
                                             @endauth
                                         </td>
                                     </tr>
