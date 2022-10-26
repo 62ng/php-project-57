@@ -3,83 +3,113 @@
 namespace App\Http\Controllers;
 
 use App\Models\Task;
+use App\Models\TaskStatus;
+use App\Models\User;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Validation\Rule;
+use Illuminate\View\View;
 
 class TaskController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
+    public function index(): View
     {
-        //
+        $tasks = Task::all();
+
+        return view('tasks.index', compact('tasks'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
+    public function create(): View
     {
-        //
+        Gate::allowIf(fn () => Auth::check());
+
+        $statuses = TaskStatus::all()->mapWithKeys(function ($item, $key) {
+            return [$item['id'] => $item['name']];
+        })->toArray();
+
+        $users = User::all()->mapWithKeys(function ($item, $key) {
+            return [$item['id'] => $item['name']];
+        })->toArray();
+
+        return view('tasks.create', compact('statuses', 'users'));
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
+    public function store(Request $request): RedirectResponse
     {
-        //
+        Gate::allowIf(fn () => Auth::check());
+
+        $validator = Validator::make(
+            $request->all(),
+            [
+                'name' => 'required|unique:tasks|max:255',
+                'status_id' => 'required|integer|min:1',
+                'assigned_to_id' => 'integer',
+            ],
+            [
+                'required' => __('tasks.required'),
+                'min' => __('tasks.required'),
+                'unique' => __('tasks.unique'),
+                'max' => __('tasks.max'),
+            ]
+        );
+
+        if ($validator->fails()) {
+            flash($validator->errors()->first('name'));
+
+            return redirect(route('tasks.create'));
+        }
+
+        $task = new Task();
+        $task->created_by_id = Auth::id();
+        $task->fill($validator->validated());
+        $task->save();
+
+        flash(__('tasks.task_added'))->success();
+
+        return redirect(route('tasks.index'));
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\Task  $tasks
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Task $tasks)
+    public function edit(Task $task): View
     {
-        //
+        Gate::allowIf(fn () => Auth::check());
+
+        return view('tasks.edit', compact('task'));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\Task  $tasks
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Task $tasks)
+    public function update(Request $request, Task $task): RedirectResponse
     {
-        //
-    }
+        Gate::allowIf(fn () => Auth::check());
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Task  $tasks
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, Task $tasks)
-    {
-        //
-    }
+        $validator = Validator::make(
+            $request->all(),
+            [
+                'name' => [
+                    'required',
+                    Rule::unique('tasks')->ignore($task->id),
+                    'max:255',
+                ]
+            ],
+            [
+                'required' => __('tasks.required'),
+                'unique' => __('tasks.unique'),
+                'max' => __('tasks.max'),
+            ]
+        );
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\Task  $tasks
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(Task $tasks)
-    {
-        //
+        if ($validator->fails()) {
+            flash($validator->errors()->first('name'));
+
+            return redirect(route('tasks.create'));
+        }
+
+        $task->name = $validator->validated()['name'];
+        $task->save();
+
+        flash(__('tasks.task_updated'))->success();
+
+        return redirect(route('tasks.index'));
     }
 }

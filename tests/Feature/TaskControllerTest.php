@@ -57,10 +57,14 @@ class TaskControllerTest extends TestCase
         $user = User::factory()->create();
         $this->actingAs($user)->post(route('tasks.store'), [
             'name' => $taskNameToStore,
+            'status_id' => 1,
+            'created_by_id' => $user->id,
         ]);
 
         $this->assertDatabaseHas('tasks', [
             'name' => $taskNameToStore,
+            'status_id' => 1,
+            'created_by_id' => $user->id,
         ]);
     }
 
@@ -87,13 +91,5 @@ class TaskControllerTest extends TestCase
         $this->assertDatabaseHas('tasks', [
             'name' => $taskNewName,
         ]);
-    }
-
-    public function testDestroy(): void
-    {
-        $user = User::factory()->create();
-        $this->actingAs($user)->delete(route('tasks.destroy', $this->task->id));
-
-        $this->assertModelMissing($this->task);
     }
 }
