@@ -33,7 +33,7 @@
                     <!-- Center Side Of Navbar -->
                     <ul class="navbar-nav me-auto ms-auto">
                         <li class="nav-item">
-                            <a class="nav-link" href="{{ route('login') }}">Задачи</a>
+                            <a class="nav-link" href="{{ route('tasks.index') }}">Задачи</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="{{ route('task_statuses.index') }}">Статусы</a>
