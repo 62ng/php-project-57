@@ -20,7 +20,7 @@ class Task extends Model
 
     public function status(): BelongsTo
     {
-        return $this->belongsTo(TaskStatus::class);
+        return $this->belongsTo(TaskStatus::class, 'status_id');
     }
 
     public function creator(): BelongsTo

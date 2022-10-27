@@ -103,9 +103,13 @@ class TaskStatusController extends Controller
     {
         Gate::allowIf(fn () => Auth::check());
 
-        $taskStatus->delete();
+        if (Gate::allows('destroy-status', $taskStatus)) {
+            flash(__('tasks.status_not_free'))->error();
+        } else {
+            $taskStatus->delete();
 
-        flash(__('tasks.status_deleted'))->success();
+            flash(__('tasks.status_deleted'))->success();
+        }
 
         return redirect(route('task_statuses.index'));
     }

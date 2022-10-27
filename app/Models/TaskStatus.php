@@ -12,6 +12,6 @@ class TaskStatus extends Model
 
     public function task(): HasOne
     {
-        return $this->hasOne(Task::class);
+        return $this->hasOne(Task::class, 'status_id', 'id');
     }
 }
