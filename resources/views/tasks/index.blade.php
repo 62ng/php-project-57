@@ -42,6 +42,9 @@
                                             @auth
                                                 <a href="{{ route('tasks.edit', $task->id) }}">Изменить</a>
                                             @endauth
+                                            @can('destroy-task', $task)
+                                                <a href="{{ route('tasks.destroy', $task->id) }}" data-confirm="Вы уверены?" data-method="delete" rel="nofollow">Удалить</a>
+                                            @endcan
                                         </td>
                                     </tr>
                                 @endforeach

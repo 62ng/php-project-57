@@ -104,4 +104,17 @@ class TaskControllerTest extends TestCase
             'created_by_id' => $user->id,
         ]);
     }
+
+    public function testDestroy(): void
+    {
+        $user = User::factory()->create();
+        $response = $this->actingAs($user)->delete(route('tasks.destroy', $this->task->id));
+
+        $response->assertForbidden();
+
+        $user = User::find($this->task->created_by_id);
+        $this->actingAs($user)->delete(route('tasks.destroy', $this->task->id));
+
+        $this->assertModelMissing($this->task);
+    }
 }

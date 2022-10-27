@@ -134,4 +134,17 @@ class TaskController extends Controller
 
         return redirect(route('tasks.index'));
     }
+
+    public function destroy(Task $task): RedirectResponse
+    {
+        if (! Gate::allows('destroy-task', $task)) {
+            abort(403);
+        }
+
+        $task->delete();
+
+        flash(__('tasks.task_deleted'))->success();
+
+        return redirect(route('tasks.index'));
+    }
 }
