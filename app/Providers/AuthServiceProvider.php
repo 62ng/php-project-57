@@ -3,6 +3,7 @@
 namespace App\Providers;
 
 // use Illuminate\Support\Facades\Gate;
+use App\Models\Label;
 use App\Models\Task;
 use App\Models\TaskStatus;
 use App\Models\User;
@@ -35,6 +36,10 @@ class AuthServiceProvider extends ServiceProvider
 
         Gate::define('destroy-status', function (User $user, TaskStatus $taskStatus) {
             return $taskStatus->task()->getResults();
+        });
+
+        Gate::define('destroy-label', function (User $user, Label $label) {
+            return $label->tasks()->getResults();
         });
     }
 }
