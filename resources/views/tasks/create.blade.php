@@ -20,6 +20,8 @@
                                 <div>{{ Form::select('status_id', $statuses, null, ['placeholder' => '----------']) }}</div>
                                 <div>{{ Form::label('assigned_to_id', 'Исполнитель') }}</div>
                                 <div>{{ Form::select('assigned_to_id', $users, null, ['placeholder' => '----------']) }}</div>
+                                <div>{{ Form::label('labels', 'Метки') }}</div>
+                                <div>{{ Form::select('labels', $labels, null, ['multiple' => 'multiple', 'name' => 'labels[]', 'placeholder' => '']) }}</div>
                                 <div>{{ Form::submit('Создать') }}</div>
                             </div>
                         {!! Form::close() !!}

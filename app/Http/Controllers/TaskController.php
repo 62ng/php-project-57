@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Label;
 use App\Models\Task;
 use App\Models\TaskStatus;
 use App\Models\User;
@@ -24,9 +25,7 @@ class TaskController extends Controller
 
     public function show(Task $task): View
     {
-        $statuses = TaskStatus::all()->mapWithKeys(function ($item, $key) {
-            return [$item['id'] => $item['name']];
-        })->toArray();
+        $statuses = TaskStatus::all()->pluck('name', 'id')->toArray();
 
         return view('tasks.show', compact('task', 'statuses'));
     }
@@ -35,15 +34,11 @@ class TaskController extends Controller
     {
         Gate::allowIf(fn () => Auth::check());
 
-        $statuses = TaskStatus::all()->mapWithKeys(function ($item, $key) {
-            return [$item['id'] => $item['name']];
-        })->toArray();
+        $users = User::all()->pluck('name', 'id')->toArray();
+        $statuses = TaskStatus::all()->pluck('name', 'id')->toArray();
+        $labels = Label::all()->pluck('name', 'id')->toArray();
 
-        $users = User::all()->mapWithKeys(function ($item, $key) {
-            return [$item['id'] => $item['name']];
-        })->toArray();
-
-        return view('tasks.create', compact('statuses', 'users'));
+        return view('tasks.create', compact('users', 'statuses', 'labels'));
     }
 
     public function store(Request $request): RedirectResponse
@@ -57,6 +52,7 @@ class TaskController extends Controller
                 'description' => 'max:1000',
                 'status_id' => 'required|integer|min:1',
                 'assigned_to_id' => 'integer',
+                'labels' => 'array'
             ],
             [
                 'required' => __('tasks.required'),
@@ -72,10 +68,15 @@ class TaskController extends Controller
             return redirect(route('tasks.create'));
         }
 
-        $task = new Task();
-        $task->created_by_id = Auth::id();
-        $task->fill($validator->validated());
+        $validated = $validator->validated();
+
+        $user = Auth::user();
+        $task = $user->createdTasks()->make();
+        $task->fill($validated);
         $task->save();
+
+        $labels = collect($validated['labels'])->filter();
+        $task->labels()->attach($labels);
 
         flash(__('tasks.task_added'))->success();
 
@@ -86,15 +87,11 @@ class TaskController extends Controller
     {
         Gate::allowIf(fn () => Auth::check());
 
-        $statuses = TaskStatus::all()->mapWithKeys(function ($item, $key) {
-            return [$item['id'] => $item['name']];
-        })->toArray();
+        $users = User::all()->pluck('name', 'id')->toArray();
+        $statuses = TaskStatus::all()->pluck('name', 'id')->toArray();
+        $labels = Label::all()->pluck('name', 'id')->toArray();
 
-        $users = User::all()->mapWithKeys(function ($item, $key) {
-            return [$item['id'] => $item['name']];
-        })->toArray();
-
-        return view('tasks.edit', compact('task', 'statuses', 'users'));
+        return view('tasks.edit', compact('task', 'users', 'statuses', 'labels'));
     }
 
     public function update(Request $request, Task $task): RedirectResponse
@@ -127,8 +124,14 @@ class TaskController extends Controller
             return redirect(route('tasks.create'));
         }
 
-        $task->fill($validator->validated());
+        $validated = $validator->validated();
+
+        $task->fill($validated);
         $task->save();
+
+        $task->labels()->detach();
+        $labels = collect($validated['labels'])->filter();
+        $task->labels()->attach($labels);
 
         flash(__('tasks.task_updated'))->success();
 

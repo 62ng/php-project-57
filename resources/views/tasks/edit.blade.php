@@ -20,6 +20,8 @@
                                 <div>{{ Form::select('status_id', $statuses, $task->status_id, ['placeholder' => '----------']) }}</div>
                                 <div>{{ Form::label('assigned_to_id', 'Исполнитель') }}</div>
                                 <div>{{ Form::select('assigned_to_id', $users, $task->assigned_to_id, ['placeholder' => '----------']) }}</div>
+                                <div>{{ Form::label('labels', 'Метки') }}</div>
+                                <div>{{ Form::select('labels', $labels, $task->labels, ['multiple' => 'multiple', 'name' => 'labels[]', 'placeholder' => '']) }}</div>
                                 <div>{{ Form::submit('Обновить') }}</div>
                             </div>
                         {!! Form::close() !!}

@@ -6,7 +6,7 @@
             <div class="col-md-8">
                 <div class="card">
                     <div class="card-header">Просмотр задачи: {{ $task->name }}</div>
-
+@dump($task)
                     <div class="card-body">
 
                         @auth
