@@ -34,9 +34,7 @@ class TaskController extends Controller
 
         $filters = $request->filter ?? null;
 
-        return view('tasks.index', compact(
-            'tasks', 'creators', 'assignees', 'statuses', 'filters'
-        ));
+        return view('tasks.index', compact('tasks', 'creators', 'assignees', 'statuses', 'filters'));
     }
 
     public function show(Task $task): View
