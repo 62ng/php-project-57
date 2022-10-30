@@ -13,14 +13,30 @@ use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
 use Illuminate\View\View;
+use Spatie\QueryBuilder\AllowedFilter;
+use Spatie\QueryBuilder\QueryBuilder;
 
 class TaskController extends Controller
 {
-    public function index(): View
+    public function index(Request $request): View|RedirectResponse
     {
-        $tasks = Task::all();
+        $tasks = QueryBuilder::for(Task::class)
+            ->allowedFilters([
+                AllowedFilter::exact('status_id'),
+                AllowedFilter::exact('created_by_id'),
+                AllowedFilter::exact('assigned_to_id'),
+            ])
+            ->get();
 
-        return view('tasks.index', compact('tasks'));
+        $creators = User::has('createdTasks')->pluck('name', 'id')->toArray();
+        $assignees = User::has('assignedTasks')->pluck('name', 'id')->toArray();
+        $statuses = TaskStatus::has('task')->pluck('name', 'id')->toArray();
+
+        $filters = $request->filter ?? null;
+
+        return view('tasks.index', compact(
+            'tasks', 'creators', 'assignees', 'statuses', 'filters'
+        ));
     }
 
     public function show(Task $task): View

@@ -14,6 +14,15 @@
                         @endauth
 
                         @include('flash::message')
+                            {{ old('status_id') }}
+                        <div class="mt-2 mb-2">
+                            {!! Form::open(['route' => 'tasks.index', 'method' => 'GET']) !!}
+                                {{ Form::select('filter[status_id]', $statuses, $filters['status_id'] ?? null, ['placeholder' => 'Статус']) }}
+                                {{ Form::select('filter[created_by_id]', $creators, $filters['created_by_id'] ?? null, ['placeholder' => 'Автор']) }}
+                                {{ Form::select('filter[assigned_to_id]', $assignees, $filters['assigned_to_id'] ?? null, ['placeholder' => 'Исполнитель']) }}
+                                {{ Form::submit('Применить') }}
+                            {!! Form::close() !!}
+                        </div>
 
                         <table class="table">
                             <thead>
