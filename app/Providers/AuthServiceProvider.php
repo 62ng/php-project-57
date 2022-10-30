@@ -35,11 +35,11 @@ class AuthServiceProvider extends ServiceProvider
         });
 
         Gate::define('destroy-status', function (User $user, TaskStatus $taskStatus) {
-            return $taskStatus->task()->getResults();
+            return $taskStatus->task()->exists();
         });
 
         Gate::define('destroy-label', function (User $user, Label $label) {
-            return $label->tasks()->getResults();
+            return $label->tasks()->exists();
         });
     }
 }

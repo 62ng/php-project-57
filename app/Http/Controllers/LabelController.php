@@ -121,13 +121,15 @@ class LabelController extends Controller
 
     public function destroy(Label $label): RedirectResponse
     {
-        if (! Gate::allows('destroy-label', $label)) {
-            abort(403);
+        Gate::allowIf(fn () => Auth::check());
+
+        if (Gate::allows('destroy-label', $label)) {
+            flash(__('tasks.label_not_free'))->error();
+        } else {
+            $label->delete();
+
+            flash(__('tasks.label_deleted'))->success();
         }
-
-        $label->delete();
-
-        flash(__('tasks.label_deleted'))->success();
 
         return redirect(route('labels.index'));
     }

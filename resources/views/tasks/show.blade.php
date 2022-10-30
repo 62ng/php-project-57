@@ -6,7 +6,7 @@
             <div class="col-md-8">
                 <div class="card">
                     <div class="card-header">Просмотр задачи: {{ $task->name }}</div>
-@dump($task)
+
                     <div class="card-body">
 
                         @auth
@@ -24,6 +24,12 @@
                         <p>
                             <span class="font-black">Описание:</span>
                             {{ $task->description }}
+                        </p>
+                        <p>
+                            <span class="font-black">Метки:</span>
+                            @foreach($task->labels as $label)
+                                {{ $label->name }}
+                            @endforeach
                         </p>
 
                     </div>

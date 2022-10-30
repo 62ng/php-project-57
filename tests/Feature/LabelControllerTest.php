@@ -61,8 +61,7 @@ class LabelControllerTest extends TestCase
 
         $response->assertForbidden();
 
-        $user = User::factory()->create();
-        $response = $this->actingAs($user)->get(route('labels.create'));
+        $response = $this->actingAs($this->user1)->get(route('labels.create'));
 
         $response->assertOk();
     }
@@ -70,8 +69,7 @@ class LabelControllerTest extends TestCase
     public function testStore(): void
     {
         $labelNameToStore = 'Example label name to store';
-        $user = User::factory()->create();
-        $this->actingAs($user)->post(route('labels.store'), [
+        $this->actingAs($this->user1)->post(route('labels.store'), [
             'name' => $labelNameToStore,
         ]);
 
@@ -86,8 +84,7 @@ class LabelControllerTest extends TestCase
 
         $response->assertForbidden();
 
-        $user = User::factory()->create();
-        $response = $this->actingAs($user)->get(route('labels.edit', $this->label->id));
+        $response = $this->actingAs($this->user1)->get(route('labels.edit', $this->label->id));
 
         $response->assertOk();
     }
@@ -95,8 +92,7 @@ class LabelControllerTest extends TestCase
     public function testUpdate(): void
     {
         $labelNewName = 'Example label name to update';
-        $user = User::factory()->create();
-        $this->actingAs($user)->put(route('labels.update', $this->label->id), [
+        $this->actingAs($this->user1)->put(route('labels.update', $this->label->id), [
             'name' => $labelNewName,
         ]);
 
@@ -107,18 +103,22 @@ class LabelControllerTest extends TestCase
 
     public function testDestroy(): void
     {
-        $user = User::factory()->create();
-        $response = $this->actingAs($user)->delete(route('labels.destroy', $this->label->id));
+        $response = $this->delete(route('labels.destroy', $this->label->id));
 
         $response->assertForbidden();
 
-        $user = User::find($this->user1->id);
-        $this->actingAs($user)->delete(route('labels.destroy', $this->label->id));
+        $this->actingAs($this->user1)->delete(route('labels.destroy', $this->label->id));
 
-//        $this->assertDatabaseMissing('label_task', [
-//            'label_id' => $this->label->id,
-//            'task_id' => $this->task->id,
-//        ]);
-        $this->assertModelMissing($this->label);
+        $this->assertModelExists($this->label);
+
+        $this->labelUnbindedName = 'Example unbinded label name';
+
+        $this->labelUnbinded = new Label();
+        $this->labelUnbinded->name = $this->labelUnbindedName;
+        $this->labelUnbinded->save();
+
+        $this->actingAs($this->user1)->delete(route('labels.destroy', $this->labelUnbinded->id));
+
+        $this->assertModelMissing($this->labelUnbinded);
     }
 }

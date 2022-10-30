@@ -52,7 +52,7 @@ class TaskController extends Controller
                 'description' => 'max:1000',
                 'status_id' => 'required|integer|min:1',
                 'assigned_to_id' => 'integer',
-                'labels' => 'array'
+                'labels' => 'array',
             ],
             [
                 'required' => __('tasks.required'),
@@ -109,6 +109,7 @@ class TaskController extends Controller
                 'description' => 'max:1000',
                 'status_id' => 'required|integer|min:1',
                 'assigned_to_id' => 'integer',
+                'labels' => 'array',
             ],
             [
                 'required' => __('tasks.required'),
@@ -144,6 +145,7 @@ class TaskController extends Controller
             abort(403);
         }
 
+        $task->labels()->detach();
         $task->delete();
 
         flash(__('tasks.task_deleted'))->success();

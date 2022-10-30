@@ -35,10 +35,8 @@
                                         <td>
                                             @auth
                                                 <a href="{{ route('labels.edit', $label->id) }}">Изменить</a>
-                                            @endauth
-                                            @can('destroy-label', $label)
                                                 <a href="{{ route('labels.destroy', $label->id) }}" data-confirm="Вы уверены?" data-method="delete" rel="nofollow">Удалить</a>
-                                            @endcan
+                                            @endauth
                                         </td>
                                     </tr>
                                 @endforeach
