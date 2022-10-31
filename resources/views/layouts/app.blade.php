@@ -8,7 +8,7 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <meta name="csrf-param" content="_token" />
 
-    <title>Laravell</title>
+    <title>{{ __('interface.title') }}</title>
 
     <!-- Fonts -->
     <link rel="dns-prefetch" href="//fonts.gstatic.com">
@@ -21,7 +21,7 @@
     <div id="app">
         <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
             <div class="container">
-                <a class="navbar-brand" href="{{ url('/') }}">
+                <a class="navbar-brand" href="{{ route('home') }}">
                     Менеджер задач
                 </a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
@@ -33,13 +33,13 @@
                     <!-- Center Side Of Navbar -->
                     <ul class="navbar-nav me-auto ms-auto">
                         <li class="nav-item">
-                            <a class="nav-link" href="{{ route('tasks.index') }}">Задачи</a>
+                            <a class="nav-link" href="{{ route('tasks.index') }}">{{ __('interface.task_category') }}</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="{{ route('task_statuses.index') }}">Статусы</a>
+                            <a class="nav-link" href="{{ route('task_statuses.index') }}">{{ __('interface.status_category') }}</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="{{ route('labels.index') }}">Метки</a>
+                            <a class="nav-link" href="{{ route('labels.index') }}">{{ __('interface.label_category') }}</a>
                         </li>
                     </ul>
 
