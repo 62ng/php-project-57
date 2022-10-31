@@ -53,7 +53,7 @@ class TaskStatusController extends Controller
         $taskStatus->name = $validator->validated()['name'];
         $taskStatus->save();
 
-        flash(__('tasks.status_added'))->success();
+        flash(__('interface.status_added'))->success();
 
         return redirect(route('task_statuses.index'));
     }
@@ -94,7 +94,7 @@ class TaskStatusController extends Controller
         $taskStatus->name = $validator->validated()['name'];
         $taskStatus->save();
 
-        flash(__('tasks.status_updated'))->success();
+        flash(__('interface.status_updated'))->success();
 
         return redirect(route('task_statuses.index'));
     }
@@ -104,11 +104,11 @@ class TaskStatusController extends Controller
         Gate::allowIf(fn () => Auth::check());
 
         if (Gate::allows('destroy-status', $taskStatus)) {
-            flash(__('tasks.status_not_free'))->error();
+            flash(__('interface.status_not_free'))->error();
         } else {
             $taskStatus->delete();
 
-            flash(__('tasks.status_deleted'))->success();
+            flash(__('interface.status_deleted'))->success();
         }
 
         return redirect(route('task_statuses.index'));

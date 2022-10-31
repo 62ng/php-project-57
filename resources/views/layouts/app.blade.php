@@ -31,7 +31,7 @@
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
 
                     <!-- Center Side Of Navbar -->
-                    <ul class="navbar-nav me-auto ms-auto">
+                    <ul class="nav me-auto ms-auto">
                         <li class="nav-item">
                             <a class="nav-link" href="{{ route('tasks.index') }}">{{ __('interface.task_category') }}</a>
                         </li>
@@ -85,7 +85,7 @@
         <main class="py-4">
             <div class="container">
                 <div class="row justify-content-center">
-                    <div class="col-md-10">
+                    <div class="col-md-9">
                         <div class="card">
                             @yield('content')
                         </div>

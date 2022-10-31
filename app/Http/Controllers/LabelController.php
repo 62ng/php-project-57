@@ -64,7 +64,7 @@ class LabelController extends Controller
         $label->fill($validator->validated());
         $label->save();
 
-        flash(__('tasks.label_added'))->success();
+        flash(__('interface.label_added'))->success();
 
         return redirect(route('labels.index'));
     }
@@ -114,7 +114,7 @@ class LabelController extends Controller
         $label->fill($validator->validated());
         $label->save();
 
-        flash(__('tasks.label_updated'))->success();
+        flash(__('interface.label_updated'))->success();
 
         return redirect(route('labels.index'));
     }
@@ -124,11 +124,11 @@ class LabelController extends Controller
         Gate::allowIf(fn () => Auth::check());
 
         if (Gate::allows('destroy-label', $label)) {
-            flash(__('tasks.label_not_free'))->error();
+            flash(__('interface.label_not_free'))->error();
         } else {
             $label->delete();
 
-            flash(__('tasks.label_deleted'))->success();
+            flash(__('interface.label_deleted'))->success();
         }
 
         return redirect(route('labels.index'));

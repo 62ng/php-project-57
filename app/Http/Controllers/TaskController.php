@@ -92,7 +92,7 @@ class TaskController extends Controller
         $labels = collect($validated['labels'])->filter();
         $task->labels()->attach($labels);
 
-        flash(__('tasks.task_added'))->success();
+        flash(__('interface.task_added'))->success();
 
         return redirect(route('tasks.index'));
     }
@@ -148,7 +148,7 @@ class TaskController extends Controller
         $labels = collect($validated['labels'])->filter();
         $task->labels()->attach($labels);
 
-        flash(__('tasks.task_updated'))->success();
+        flash(__('interface.task_updated'))->success();
 
         return redirect(route('tasks.index'));
     }
@@ -162,7 +162,7 @@ class TaskController extends Controller
         $task->labels()->detach();
         $task->delete();
 
-        flash(__('tasks.task_deleted'))->success();
+        flash(__('interface.task_deleted'))->success();
 
         return redirect(route('tasks.index'));
     }

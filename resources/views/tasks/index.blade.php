@@ -13,10 +13,10 @@
             {{ old('status_id') }}
         <div class="mt-2 mb-2">
             {!! Form::open(['route' => 'tasks.index', 'method' => 'GET']) !!}
-                {{ Form::select('filter[status_id]', $statuses, $filters['status_id'] ?? null, ['placeholder' => __('interface.task_label_status')]) }}
-                {{ Form::select('filter[created_by_id]', $creators, $filters['created_by_id'] ?? null, ['placeholder' => __('interface.task_label_creator')]) }}
-                {{ Form::select('filter[assigned_to_id]', $assignees, $filters['assigned_to_id'] ?? null, ['placeholder' => __('interface.task_label_assignee')]) }}
-                {{ Form::submit(__('interface.task_button_filter')) }}
+                {{ Form::select('filter[status_id]', $statuses, $filters['status_id'] ?? null, ['placeholder' => __('interface.task_label_status'), 'class' => 'rounded-1 border border-secondary p-2']) }}
+                {{ Form::select('filter[created_by_id]', $creators, $filters['created_by_id'] ?? null, ['placeholder' => __('interface.task_label_creator'), 'class' => 'rounded-1 border border-secondary p-2']) }}
+                {{ Form::select('filter[assigned_to_id]', $assignees, $filters['assigned_to_id'] ?? null, ['placeholder' => __('interface.task_label_assignee'), 'class' => 'rounded-1 border border-secondary p-2']) }}
+                {{ Form::submit(__('interface.task_button_filter'), ['class' => 'btn btn-primary']) }}
             {!! Form::close() !!}
         </div>
 
