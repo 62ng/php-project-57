@@ -26,7 +26,7 @@ class TaskController extends Controller
                 AllowedFilter::exact('created_by_id'),
                 AllowedFilter::exact('assigned_to_id'),
             ])
-            ->get();
+            ->paginate(10);
 
         $creators = User::has('createdTasks')->pluck('name', 'id')->toArray();
         $assignees = User::has('assignedTasks')->pluck('name', 'id')->toArray();
