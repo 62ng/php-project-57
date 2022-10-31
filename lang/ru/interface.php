@@ -40,7 +40,7 @@ return [
 
     'status_header_index' => 'Статусы',
     'status_header_edit' => 'Изменение статуса',
-    'status_header_create' => 'Создать',
+    'status_header_create' => 'Создать статус',
     'status_button_to_create' => 'Создать статус',
     'status_button_update' => 'Обновить',
     'status_button_create' => 'Создать',
