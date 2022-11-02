@@ -26,6 +26,7 @@ return [
     'Log in' => "Вход",
     'Remember Me' => "Запомнить меня",
     'Login' => "Войти",
+    'Logout' => "Выйти",
     'Name' => "Имя",
     'Confirm Password' => "Подтверждение",
     'Reset Password' => "Сбросить пароль",
