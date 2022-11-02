@@ -5,12 +5,12 @@
 
     <div class="card-body">
 
+        @include('flash::message')
+
         @auth
             <a class="btn btn-outline-primary mt-3 mb-3" href="{{ route('tasks.create') }}" role="button">{{ __('interface.task_button_to_create') }}</a>
         @endauth
 
-        @include('flash::message')
-            {{ old('status_id') }}
         <div class="mt-2 mb-2">
             {!! Form::open(['route' => 'tasks.index', 'method' => 'GET']) !!}
                 {{ Form::select('filter[status_id]', $statuses, $filters['status_id'] ?? null, ['placeholder' => __('interface.task_label_status'), 'class' => 'rounded-1 border border-secondary p-2']) }}

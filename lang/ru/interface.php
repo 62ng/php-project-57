@@ -14,10 +14,13 @@ return [
     */
 
     'title' => 'Менеджер задач',
-    'task_category' => 'Задачи',
-    'status_category' => 'Статусы',
-    'label_category' => 'Метки',
     'home_header' => 'Главная',
+    'are_you_sure' => 'Вы уверены?',
+    'required' => 'Это обязательное поле',
+    'min' => 'Проверьте ваши данные',
+    'max' => 'Значение не должно быть более 255 символов',
+
+    'task_category' => 'Задачи',
     'task_header_index' => 'Задачи',
     'task_header_show' => 'Просмотр задачи: :name',
     'task_header_edit' => 'Изменение задачи',
@@ -37,39 +40,35 @@ return [
     'task_label_labels' => 'Метки',
     'task_label_date_create' => 'Дата создания',
     'task_label_actions' => 'Действия',
+    'task_added' => 'Задача успешно создана',
+    'task_updated' => 'Задача успешно изменена',
+    'task_deleted' => 'Задача успешно удалена',
+    'task_unique' => 'Задача с таким именем уже существует',
 
-    'status_header_index' => 'Статусы',
-    'status_header_edit' => 'Изменение статуса',
-    'status_header_create' => 'Создать статус',
-    'status_button_to_create' => 'Создать статус',
-    'status_button_update' => 'Обновить',
-    'status_button_create' => 'Создать',
-
+    'label_category' => 'Метки',
     'label_header_index' => 'Метки',
     'label_header_edit' => 'Изменение метки',
     'label_header_create' => 'Создать метку',
     'label_button_to_create' => 'Создать метку',
     'label_button_update' => 'Обновить',
     'label_button_create' => 'Создать',
-
-    'are_you_sure' => 'Вы уверены?',
-
-    'required' => 'Это обязательное поле',
-    'unique' => 'Статус с таким именем уже существует',
-    'min' => 'Check your data.',
-    'max' => 'The name must not be greater than 255 characters.',
-
-    'status_added' => 'Статус успешно добавлен',
-    'status_updated' => 'Статус успешно изменён',
-    'status_deleted' => 'Статус успешно удалён',
-    'status_not_free' => 'Не удалось удалить статус',
-
-    'task_added' => 'Задача успешно создана',
-    'task_updated' => 'Задача успешно изменена',
-    'task_deleted' => 'Задача успешно удалена',
-
     'label_added' => 'Метка успешно создана',
     'label_updated' => 'Метка успешно изменена',
     'label_deleted' => 'Метка успешно удалена',
     'label_not_free' => 'Не удалось удалить метку',
+    'label_unique' => 'Метка с таким именем уже существует',
+
+    'status_category' => 'Статусы',
+    'status_header_index' => 'Статусы',
+    'status_header_edit' => 'Изменение статуса',
+    'status_header_create' => 'Создать статус',
+    'status_button_to_create' => 'Создать статус',
+    'status_button_update' => 'Обновить',
+    'status_button_create' => 'Создать',
+    'status_added' => 'Статус успешно добавлен',
+    'status_updated' => 'Статус успешно изменён',
+    'status_deleted' => 'Статус успешно удалён',
+    'status_not_free' => 'Не удалось удалить статус',
+    'status_unique' => 'Статус с таким именем уже существует',
+
 ];

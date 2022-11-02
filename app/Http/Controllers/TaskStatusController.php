@@ -34,19 +34,17 @@ class TaskStatusController extends Controller
         $validator = Validator::make(
             $request->all(),
             [
-            'name' => 'required|unique:task_statuses|max:255'
+            'name' => 'required|unique:task_statuses,name|max:255'
             ],
             [
                 'required' => __('interface.required'),
-                'unique' => __('interface.unique'),
+                'unique' => __('interface.status_unique'),
                 'max' => __('interface.max'),
             ]
         );
 
         if ($validator->fails()) {
-            flash($validator->errors()->first('name'))->error();
-
-            return redirect(route('task_statuses.create'));
+            return redirect(route('task_statuses.create'))->withErrors($validator)->withInput();
         }
 
         $taskStatus = new TaskStatus();
@@ -74,21 +72,19 @@ class TaskStatusController extends Controller
             [
                 'name' => [
                     'required',
-                    Rule::unique('task_statuses')->ignore($taskStatus->id),
+                    Rule::unique('task_statuses', 'name')->ignore($taskStatus->id),
                     'max:255',
                 ]
             ],
             [
                 'required' => __('interface.required'),
-                'unique' => __('interface.unique'),
+                'unique' => __('interface.status_unique'),
                 'max' => __('interface.max'),
             ]
         );
 
         if ($validator->fails()) {
-            flash($validator->errors()->first('name'))->error();
-
-            return redirect(route('task_statuses.create'));
+            return redirect(route('task_statuses.create'))->withErrors($validator)->withInput();
         }
 
         $taskStatus->name = $validator->validated()['name'];

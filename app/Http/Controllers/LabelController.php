@@ -39,20 +39,18 @@ class LabelController extends Controller
         $validator = Validator::make(
             $request->all(),
             [
-                'name' => 'required|unique:labels|max:255',
+                'name' => 'required|unique:labels,name|max:255',
                 'description' => 'max:1000',
             ],
             [
                 'required' => __('interface.required'),
-                'unique' => __('interface.unique'),
+                'unique' => __('interface.label_unique'),
                 'max' => __('interface.max'),
             ]
         );
 
         if ($validator->fails()) {
-            flash($validator->errors()->first('name'))->error();
-
-            return redirect(route('labels.create'));
+            return redirect(route('labels.create'))->withErrors($validator)->withInput();
         }
 
         $label = new Label();
@@ -83,22 +81,20 @@ class LabelController extends Controller
             [
                 'name' => [
                     'required',
-                    Rule::unique('labels')->ignore($label->id),
+                    Rule::unique('labels', 'name')->ignore($label->id),
                     'max:255',
                 ],
                 'description' => 'max:1000',
             ],
             [
                 'required' => __('interface.required'),
-                'unique' => __('interface.unique'),
+                'unique' => __('interface.label_unique'),
                 'max' => __('interface.max'),
             ]
         );
 
         if ($validator->fails()) {
-            flash($validator->errors()->first('name'))->error();
-
-            return redirect(route('labels.create'));
+            return redirect(route('labels.create'))->withErrors($validator)->withInput();
         }
 
         $label->fill($validator->validated());

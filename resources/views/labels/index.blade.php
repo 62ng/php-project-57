@@ -5,11 +5,12 @@
 
     <div class="card-body">
 
+        @include('flash::message')
+
         @auth
             <a class="btn btn-outline-primary mt-3 mb-3" href="{{ route('labels.create') }}" role="button">{{ __('interface.label_button_to_create') }}</a>
         @endauth
 
-        @include('flash::message')
         <table class="table">
             <thead>
                 <tr>

@@ -62,24 +62,21 @@ class TaskController extends Controller
         $validator = Validator::make(
             $request->all(),
             [
-                'name' => 'required|unique:tasks|max:255',
+                'name' => 'required|unique:tasks,name|max:255',
                 'description' => 'max:1000',
-                'status_id' => 'required|integer|min:1',
-                'assigned_to_id' => 'integer',
-                'labels' => 'array',
+                'status_id' => 'required',
+                'assigned_to_id' => 'nullable',
+                'labels' => 'array'
             ],
             [
                 'required' => __('interface.required'),
-                'min' => __('interface.required'),
-                'unique' => __('interface.unique'),
+                'unique' => __('interface.task_unique'),
                 'max' => __('interface.max'),
             ]
         );
 
         if ($validator->fails()) {
-            flash($validator->errors()->first('name'))->error();
-
-            return redirect(route('tasks.create'));
+            return redirect(route('tasks.create'))->withErrors($validator)->withInput();
         }
 
         $validated = $validator->validated();
@@ -115,28 +112,21 @@ class TaskController extends Controller
         $validator = Validator::make(
             $request->all(),
             [
-                'name' => [
-                    'required',
-                    Rule::unique('tasks')->ignore($task->id),
-                    'max:255',
-                ],
+                'name' => ['required', Rule::unique('tasks', 'name')->ignore($task->id), 'max:255'],
                 'description' => 'max:1000',
-                'status_id' => 'required|integer|min:1',
-                'assigned_to_id' => 'integer',
-                'labels' => 'array',
+                'status_id' => 'required',
+                'assigned_to_id' => 'nullable',
+                'labels' => 'array'
             ],
             [
                 'required' => __('interface.required'),
-                'min' => __('interface.required'),
-                'unique' => __('interface.unique'),
+                'unique' => __('interface.task_unique'),
                 'max' => __('interface.max'),
             ]
         );
 
         if ($validator->fails()) {
-            flash($validator->errors()->first('name'))->error();
-
-            return redirect(route('tasks.create'));
+            return redirect(route('tasks.create'))->withErrors($validator)->withInput();
         }
 
         $validated = $validator->validated();
