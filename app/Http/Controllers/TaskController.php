@@ -69,15 +69,15 @@ class TaskController extends Controller
                 'labels' => 'array',
             ],
             [
-                'required' => __('tasks.required'),
-                'min' => __('tasks.required'),
-                'unique' => __('tasks.unique'),
-                'max' => __('tasks.max'),
+                'required' => __('interface.required'),
+                'min' => __('interface.required'),
+                'unique' => __('interface.unique'),
+                'max' => __('interface.max'),
             ]
         );
 
         if ($validator->fails()) {
-            flash($validator->errors()->first('name'));
+            flash($validator->errors()->first('name'))->error();
 
             return redirect(route('tasks.create'));
         }
@@ -126,15 +126,15 @@ class TaskController extends Controller
                 'labels' => 'array',
             ],
             [
-                'required' => __('tasks.required'),
-                'min' => __('tasks.required'),
-                'unique' => __('tasks.unique'),
-                'max' => __('tasks.max'),
+                'required' => __('interface.required'),
+                'min' => __('interface.required'),
+                'unique' => __('interface.unique'),
+                'max' => __('interface.max'),
             ]
         );
 
         if ($validator->fails()) {
-            flash($validator->errors()->first('name'));
+            flash($validator->errors()->first('name'))->error();
 
             return redirect(route('tasks.create'));
         }

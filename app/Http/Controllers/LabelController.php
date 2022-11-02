@@ -43,14 +43,14 @@ class LabelController extends Controller
                 'description' => 'max:1000',
             ],
             [
-                'required' => __('tasks.required'),
-                'unique' => __('tasks.unique'),
-                'max' => __('tasks.max'),
+                'required' => __('interface.required'),
+                'unique' => __('interface.unique'),
+                'max' => __('interface.max'),
             ]
         );
 
         if ($validator->fails()) {
-            flash($validator->errors()->first('name'));
+            flash($validator->errors()->first('name'))->error();
 
             return redirect(route('labels.create'));
         }
@@ -89,14 +89,14 @@ class LabelController extends Controller
                 'description' => 'max:1000',
             ],
             [
-                'required' => __('tasks.required'),
-                'unique' => __('tasks.unique'),
-                'max' => __('tasks.max'),
+                'required' => __('interface.required'),
+                'unique' => __('interface.unique'),
+                'max' => __('interface.max'),
             ]
         );
 
         if ($validator->fails()) {
-            flash($validator->errors()->first('name'));
+            flash($validator->errors()->first('name'))->error();
 
             return redirect(route('labels.create'));
         }

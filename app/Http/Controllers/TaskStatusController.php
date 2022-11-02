@@ -37,14 +37,14 @@ class TaskStatusController extends Controller
             'name' => 'required|unique:task_statuses|max:255'
             ],
             [
-                'required' => __('tasks.required'),
-                'unique' => __('tasks.unique'),
-                'max' => __('tasks.max'),
+                'required' => __('interface.required'),
+                'unique' => __('interface.unique'),
+                'max' => __('interface.max'),
             ]
         );
 
         if ($validator->fails()) {
-            flash($validator->errors()->first('name'));
+            flash($validator->errors()->first('name'))->error();
 
             return redirect(route('task_statuses.create'));
         }
@@ -79,14 +79,14 @@ class TaskStatusController extends Controller
                 ]
             ],
             [
-                'required' => __('tasks.required'),
-                'unique' => __('tasks.unique'),
-                'max' => __('tasks.max'),
+                'required' => __('interface.required'),
+                'unique' => __('interface.unique'),
+                'max' => __('interface.max'),
             ]
         );
 
         if ($validator->fails()) {
-            flash($validator->errors()->first('name'));
+            flash($validator->errors()->first('name'))->error();
 
             return redirect(route('task_statuses.create'));
         }
