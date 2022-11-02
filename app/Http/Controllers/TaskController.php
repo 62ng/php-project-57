@@ -18,7 +18,7 @@ use Spatie\QueryBuilder\QueryBuilder;
 
 class TaskController extends Controller
 {
-    public function index(Request $request): View|RedirectResponse
+    public function index(Request $request): View
     {
         $tasks = QueryBuilder::for(Task::class)
             ->allowedFilters([

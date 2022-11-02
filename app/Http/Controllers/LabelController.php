@@ -26,13 +26,8 @@ class LabelController extends Controller
     {
         Gate::allowIf(fn () => Auth::check());
 
-        $statuses = TaskStatus::all()->mapWithKeys(function ($item, $key) {
-            return [$item['id'] => $item['name']];
-        })->toArray();
-
-        $users = User::all()->mapWithKeys(function ($item, $key) {
-            return [$item['id'] => $item['name']];
-        })->toArray();
+        $statuses = TaskStatus::all()->pluck('name', 'id')->toArray();
+        $users = User::all()->pluck('name', 'id')->toArray();
 
         return view('labels.create', compact('statuses', 'users'));
     }
@@ -73,13 +68,8 @@ class LabelController extends Controller
     {
         Gate::allowIf(fn () => Auth::check());
 
-        $statuses = TaskStatus::all()->mapWithKeys(function ($item, $key) {
-            return [$item['id'] => $item['name']];
-        })->toArray();
-
-        $users = User::all()->mapWithKeys(function ($item, $key) {
-            return [$item['id'] => $item['name']];
-        })->toArray();
+        $statuses = TaskStatus::all()->pluck('name', 'id')->toArray();
+        $users = User::all()->pluck('name', 'id')->toArray();
 
         return view('labels.edit', compact('label', 'statuses', 'users'));
     }
