@@ -16,7 +16,6 @@ return new class extends Migration
         Schema::create('task_statuses', function (Blueprint $table) {
             $table->id();
             $table->string('name')->nullable();
-            $table->boolean('status');
             $table->timestamps();
         });
     }
