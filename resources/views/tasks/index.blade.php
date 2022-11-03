@@ -43,7 +43,7 @@
                             <a href="{{ route('tasks.show', $task->id) }}">{{ $task->name }}</a>
                         </td>
                         <td>{{ $task->creator->name }}</td>
-                        <td>{{ $task->assignee->name }}</td>
+                        <td>{{ $task->assignee ? $task->assignee->name : '' }}</td>
                         <td>{{ date('d.m.Y', strtotime($task->created_at)) }}</td>
                         @auth
                             <td>
