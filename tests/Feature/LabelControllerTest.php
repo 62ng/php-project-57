@@ -13,8 +13,6 @@ class LabelControllerTest extends TestCase
 {
     use RefreshDatabase;
 
-    public string $labelName;
-    public string $taskName;
     public User $user1;
     public User $user2;
     public Task $task;
@@ -31,19 +29,15 @@ class LabelControllerTest extends TestCase
 
         $this->status = TaskStatus::factory()->create();
 
-        $this->taskName = 'Example task name';
-
         $this->task = new Task();
-        $this->task->name = $this->taskName;
+        $this->task->name = 'Example task name';
         $this->task->status_id = $this->status->id;
         $this->task->created_by_id = $this->user1->id;
         $this->task->assigned_to_id = $this->user2->id;
         $this->task->save();
 
-        $this->labelName = 'Example label name';
-
         $this->label = new Label();
-        $this->label->name = $this->labelName;
+        $this->label->name = 'Example label name';
         $this->label->save();
 
         $this->task->labels()->attach($this->label->id);

@@ -89,7 +89,7 @@ class TaskControllerTest extends TestCase
     public function testUpdate(): void
     {
         $taskNewName = 'Example task name to update';
-        $user = User::find($this->task->created_by_id);
+        $user = User::find($this->task->created_by_id)->first();
         $this->actingAs($user)->put(route('tasks.update', $this->task->id), [
             'name' => $taskNewName,
             'status_id' => 1,
