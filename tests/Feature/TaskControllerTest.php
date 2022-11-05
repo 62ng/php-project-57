@@ -13,7 +13,7 @@ class TaskControllerTest extends TestCase
     use RefreshDatabase;
 
     public string $statusName;
-    public object $task;
+    public Task $task;
 
     public function setUp(): void
     {
@@ -23,10 +23,8 @@ class TaskControllerTest extends TestCase
         $user2 = User::factory()->create();
         $status = TaskStatus::factory()->create();
 
-        $this->taskName = 'Example task name';
-
         $this->task = new Task();
-        $this->task->name = $this->taskName;
+        $this->task->name = 'Example task name';
         $this->task->status_id = $status->id;
         $this->task->created_by_id = $user1->id;
         $this->task->assigned_to_id = $user2->id;

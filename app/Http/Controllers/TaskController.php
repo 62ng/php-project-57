@@ -39,18 +39,16 @@ class TaskController extends Controller
 
     public function show(Task $task): View
     {
-        $statuses = TaskStatus::all()->pluck('name', 'id')->toArray();
-
-        return view('tasks.show', compact('task', 'statuses'));
+        return view('tasks.show', compact('task'));
     }
 
     public function create(): View
     {
         Gate::allowIf(fn () => Auth::check());
 
-        $users = User::all()->pluck('name', 'id')->toArray();
-        $statuses = TaskStatus::all()->pluck('name', 'id')->toArray();
-        $labels = Label::all()->pluck('name', 'id')->toArray();
+        $users = User::pluck('name', 'id')->toArray();
+        $statuses = TaskStatus::pluck('name', 'id')->toArray();
+        $labels = Label::pluck('name', 'id')->toArray();
 
         return view('tasks.create', compact('users', 'statuses', 'labels'));
     }
@@ -98,9 +96,9 @@ class TaskController extends Controller
     {
         Gate::allowIf(fn () => Auth::check());
 
-        $users = User::all()->pluck('name', 'id')->toArray();
-        $statuses = TaskStatus::all()->pluck('name', 'id')->toArray();
-        $labels = Label::all()->pluck('name', 'id')->toArray();
+        $users = User::pluck('name', 'id')->toArray();
+        $statuses = TaskStatus::pluck('name', 'id')->toArray();
+        $labels = Label::pluck('name', 'id')->toArray();
 
         return view('tasks.edit', compact('task', 'users', 'statuses', 'labels'));
     }

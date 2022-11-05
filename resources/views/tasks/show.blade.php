@@ -15,7 +15,7 @@
         </p>
         <p>
             <span class="accent-red-600">{{ __('interface.task_label_status') }}:</span>
-            {{ $statuses[$task->status_id] }}
+            {{ $task->status->name }}
         </p>
         <p>
             <span class="font-black">{{ __('interface.task_label_description') }}:</span>
@@ -23,9 +23,7 @@
         </p>
         <p>
             <span class="font-black">{{ __('interface.task_label_labels') }}:</span>
-            @foreach($task->labels as $label)
-                {{ $label->name }}
-            @endforeach
+            {{ implode(', ', $task->labels->pluck('name', 'id')->toArray()) }}
         </p>
 
     </div>

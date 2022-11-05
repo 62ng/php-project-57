@@ -3,8 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Models\Label;
-use App\Models\TaskStatus;
-use App\Models\User;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -26,10 +24,7 @@ class LabelController extends Controller
     {
         Gate::allowIf(fn () => Auth::check());
 
-        $statuses = TaskStatus::all()->pluck('name', 'id')->toArray();
-        $users = User::all()->pluck('name', 'id')->toArray();
-
-        return view('labels.create', compact('statuses', 'users'));
+        return view('labels.create');
     }
 
     public function store(Request $request): RedirectResponse
@@ -66,10 +61,7 @@ class LabelController extends Controller
     {
         Gate::allowIf(fn () => Auth::check());
 
-        $statuses = TaskStatus::all()->pluck('name', 'id')->toArray();
-        $users = User::all()->pluck('name', 'id')->toArray();
-
-        return view('labels.edit', compact('label', 'statuses', 'users'));
+        return view('labels.edit', compact('label'));
     }
 
     public function update(Request $request, Label $label): RedirectResponse

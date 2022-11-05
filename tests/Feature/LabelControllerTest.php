@@ -15,11 +15,12 @@ class LabelControllerTest extends TestCase
 
     public string $labelName;
     public string $taskName;
-    public object $user1;
-    public object $user2;
-    public object $task;
-    public object $status;
-    public object $label;
+    public User $user1;
+    public User $user2;
+    public Task $task;
+    public TaskStatus $status;
+    public Label $label;
+    public Label $labelDetached;
 
     public function setUp(): void
     {
@@ -111,14 +112,12 @@ class LabelControllerTest extends TestCase
 
         $this->assertModelExists($this->label);
 
-        $this->labelUnbindedName = 'Example unbinded label name';
+        $this->labelDetached = new Label();
+        $this->labelDetached->name = 'Example detached label name';
+        $this->labelDetached->save();
 
-        $this->labelUnbinded = new Label();
-        $this->labelUnbinded->name = $this->labelUnbindedName;
-        $this->labelUnbinded->save();
+        $this->actingAs($this->user1)->delete(route('labels.destroy', $this->labelDetached->id));
 
-        $this->actingAs($this->user1)->delete(route('labels.destroy', $this->labelUnbinded->id));
-
-        $this->assertModelMissing($this->labelUnbinded);
+        $this->assertModelMissing($this->labelDetached);
     }
 }

@@ -12,7 +12,7 @@ class TaskStatusControllerTest extends TestCase
     use RefreshDatabase;
 
     public string $statusName;
-    public object $status;
+    public TaskStatus $status;
 
     public function setUp(): void
     {
