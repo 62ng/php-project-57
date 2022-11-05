@@ -65,7 +65,7 @@ return [
     'status_button_to_create' => 'Создать статус',
     'status_button_update' => 'Обновить',
     'status_button_create' => 'Создать',
-    'status_added' => 'Статус успешно добавлен',
+    'status_added' => 'Статус успешно создан',
     'status_updated' => 'Статус успешно изменён',
     'status_deleted' => 'Статус успешно удалён',
     'status_not_free' => 'Не удалось удалить статус',
