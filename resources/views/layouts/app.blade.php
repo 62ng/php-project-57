@@ -60,7 +60,7 @@
                             @endif
                         @else
                             <li class="nav-item">
-                                <a class="nav-link" href="{{ route('logout') }}">{{ __('auth.Logout') }}</a>
+                                <a class="nav-link" href="{{ route('logout') }}" data-method="post" rel="nofollow">{{ __('auth.Logout') }}</a>
                             </li>
                         @endguest
                     </ul>
