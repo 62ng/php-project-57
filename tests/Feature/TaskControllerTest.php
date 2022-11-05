@@ -91,13 +91,13 @@ class TaskControllerTest extends TestCase
         $this->actingAs($user)->put(route('tasks.update', $this->task->id), [
             'name' => $taskNewName,
             'status_id' => 1,
-            'created_by_id' => $user['id'],
+            'created_by_id' => $this->task->created_by_id,
         ]);
 
         $this->assertDatabaseHas('tasks', [
             'name' => $taskNewName,
             'status_id' => 1,
-            'created_by_id' => $user['id'],
+            'created_by_id' => $this->task->created_by_id,
         ]);
     }
 
