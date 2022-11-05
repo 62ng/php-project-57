@@ -25,7 +25,7 @@
             <tbody>
                 @foreach($statuses as $status)
                     <tr>
-                        <th scope="row">{{ $status['id'] }}</th>
+                        <td>{{ $status['id'] }}</td>
                         <td>{{ $status['name'] }}</td>
                         <td>{{ date('d.m.Y', strtotime($status['created_at'])) }}</td>
                         @auth
