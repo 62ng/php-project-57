@@ -19,14 +19,14 @@ class TaskControllerTest extends TestCase
     {
         parent::setUp();
 
-        $user1 = User::factory()->create();
+        $this->user = User::factory()->create();
         $user2 = User::factory()->create();
         $status = TaskStatus::factory()->create();
 
         $this->task = new Task();
         $this->task->name = 'Example task name';
         $this->task->status_id = $status->id;
-        $this->task->created_by_id = $user1->id;
+        $this->task->created_by_id = $this->user->id;
         $this->task->assigned_to_id = $user2->id;
         $this->task->save();
     }
@@ -51,8 +51,7 @@ class TaskControllerTest extends TestCase
 
         $response->assertForbidden();
 
-        $user = User::factory()->create();
-        $response = $this->actingAs($user)->get(route('tasks.create'));
+        $response = $this->actingAs($this->user)->get(route('tasks.create'));
 
         $response->assertOk();
     }
@@ -60,17 +59,17 @@ class TaskControllerTest extends TestCase
     public function testStore(): void
     {
         $taskNameToStore = 'Example task name to store';
-        $user = User::factory()->create();
-        $this->actingAs($user)->post(route('tasks.store'), [
+
+        $this->actingAs($this->user)->post(route('tasks.store'), [
             'name' => $taskNameToStore,
             'status_id' => 1,
-            'created_by_id' => $user->id,
+            'created_by_id' => $this->user->id,
         ]);
 
         $this->assertDatabaseHas('tasks', [
             'name' => $taskNameToStore,
             'status_id' => 1,
-            'created_by_id' => $user->id,
+            'created_by_id' => $this->user->id,
         ]);
     }
 
@@ -80,8 +79,7 @@ class TaskControllerTest extends TestCase
 
         $response->assertForbidden();
 
-        $user = User::factory()->create();
-        $response = $this->actingAs($user)->get(route('tasks.edit', $this->task->id));
+        $response = $this->actingAs($this->user)->get(route('tasks.edit', $this->task->id));
 
         $response->assertOk();
     }
