@@ -12,8 +12,8 @@ class TaskControllerTest extends TestCase
 {
     use RefreshDatabase;
 
-    public string $statusName;
     public Task $task;
+    public User $user;
 
     public function setUp(): void
     {
@@ -91,13 +91,13 @@ class TaskControllerTest extends TestCase
         $this->actingAs($user)->put(route('tasks.update', $this->task->id), [
             'name' => $taskNewName,
             'status_id' => 1,
-            'created_by_id' => $user->id,
+            'created_by_id' => $user['id'],
         ]);
 
         $this->assertDatabaseHas('tasks', [
             'name' => $taskNewName,
             'status_id' => 1,
-            'created_by_id' => $user->id,
+            'created_by_id' => $user['id'],
         ]);
     }
 
