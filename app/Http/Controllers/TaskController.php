@@ -135,7 +135,7 @@ class TaskController extends Controller
         $task->save();
 
         $task->labels()->detach();
-        $labels = collect($validated['labels'])->filter();
+        $labels = collect($validated['labels'] ?? [])->filter();
         $task->labels()->attach($labels);
 
         flash(__('interface.task_updated'))->success();
