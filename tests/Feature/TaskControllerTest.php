@@ -35,9 +35,6 @@ class TaskControllerTest extends TestCase
 
     public function testCreate(): void
     {
-        $response = $this->get(route('tasks.create'));
-        $response->assertForbidden();
-
         $response = $this->actingAs($this->user)->get(route('tasks.create'));
         $response->assertOk();
     }
@@ -60,9 +57,6 @@ class TaskControllerTest extends TestCase
 
     public function testEdit(): void
     {
-        $response = $this->get(route('tasks.edit', $this->task->id));
-        $response->assertForbidden();
-
         $response = $this->actingAs($this->user)->get(route('tasks.edit', $this->task->id));
         $response->assertOk();
     }
@@ -85,10 +79,6 @@ class TaskControllerTest extends TestCase
 
     public function testDestroy(): void
     {
-        $userWithoutTask = User::factory()->create();
-        $response = $this->actingAs($userWithoutTask)->delete(route('tasks.destroy', $this->task->id));
-        $response->assertForbidden();
-
         $this->actingAs($this->user)->delete(route('tasks.destroy', $this->task->id));
         $this->assertModelMissing($this->task);
     }

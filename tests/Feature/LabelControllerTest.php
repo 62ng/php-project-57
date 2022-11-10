@@ -28,9 +28,6 @@ class LabelControllerTest extends TestCase
 
     public function testCreate(): void
     {
-        $response = $this->get(route('labels.create'));
-        $response->assertForbidden();
-
         $response = $this->actingAs($this->user)->get(route('labels.create'));
         $response->assertOk();
     }
@@ -49,9 +46,6 @@ class LabelControllerTest extends TestCase
 
     public function testEdit(): void
     {
-        $response = $this->get(route('labels.edit', $this->label->id));
-        $response->assertForbidden();
-
         $response = $this->actingAs($this->user)->get(route('labels.edit', $this->label->id));
         $response->assertOk();
     }
@@ -73,15 +67,12 @@ class LabelControllerTest extends TestCase
         $task = Task::factory()->create();
         $task->labels()->attach($this->label->id);
 
-        $response = $this->delete(route('labels.destroy', $this->label->id));
-        $response->assertForbidden();
-
         $this->actingAs($this->user)->delete(route('labels.destroy', $this->label->id));
         $this->assertModelExists($this->label);
 
-        $labelDetached = Label::factory()->create();
+        $labelWithoutTask = Label::factory()->create();
 
-        $this->actingAs($this->user)->delete(route('labels.destroy', $labelDetached->id));
-        $this->assertModelMissing($labelDetached);
+        $this->actingAs($this->user)->delete(route('labels.destroy', $labelWithoutTask->id));
+        $this->assertModelMissing($labelWithoutTask);
     }
 }

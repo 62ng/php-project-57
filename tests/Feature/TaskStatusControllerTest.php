@@ -28,9 +28,6 @@ class TaskStatusControllerTest extends TestCase
 
     public function testCreate(): void
     {
-        $response = $this->get(route('task_statuses.create'));
-        $response->assertForbidden();
-
         $response = $this->actingAs($this->user)->get(route('task_statuses.create'));
         $response->assertOk();
     }
@@ -49,9 +46,6 @@ class TaskStatusControllerTest extends TestCase
 
     public function testEdit(): void
     {
-        $response = $this->get(route('task_statuses.edit', $this->status->id));
-        $response->assertForbidden();
-
         $response = $this->actingAs($this->user)->get(route('task_statuses.edit', $this->status->id));
         $response->assertOk();
     }
@@ -73,9 +67,6 @@ class TaskStatusControllerTest extends TestCase
         Task::factory()->create([
             'status_id' => $this->status->id,
         ]);
-
-        $response = $this->delete(route('task_statuses.destroy', $this->status->id));
-        $response->assertForbidden();
 
         $this->actingAs($this->user)->delete(route('task_statuses.destroy', $this->status->id));
         $this->assertModelExists($this->status);
