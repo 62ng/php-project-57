@@ -42,12 +42,13 @@ class TaskControllerTest extends TestCase
     public function testStore(): void
     {
         $taskNameToStore = 'Example task name to store';
-        $this->actingAs($this->user)->post(route('tasks.store'), [
+        $response = $this->actingAs($this->user)->post(route('tasks.store'), [
             'name' => $taskNameToStore,
             'status_id' => 1,
             'created_by_id' => $this->user->id,
         ]);
 
+        $response->assertSessionHasNoErrors();
         $this->assertDatabaseHas('tasks', [
             'name' => $taskNameToStore,
             'status_id' => 1,
@@ -64,12 +65,13 @@ class TaskControllerTest extends TestCase
     public function testUpdate(): void
     {
         $taskNewName = 'Example task name to update';
-        $this->actingAs($this->user)->put(route('tasks.update', $this->task->id), [
+        $response = $this->actingAs($this->user)->put(route('tasks.update', $this->task->id), [
             'name' => $taskNewName,
             'status_id' => 1,
             'created_by_id' => $this->user->id,
         ]);
 
+        $response->assertSessionHasNoErrors();
         $this->assertDatabaseHas('tasks', [
             'name' => $taskNewName,
             'status_id' => 1,

@@ -35,10 +35,11 @@ class LabelControllerTest extends TestCase
     public function testStore(): void
     {
         $labelNameToStore = 'Example label name to store';
-        $this->actingAs($this->user)->post(route('labels.store'), [
+        $response = $this->actingAs($this->user)->post(route('labels.store'), [
             'name' => $labelNameToStore,
         ]);
 
+        $response->assertSessionHasNoErrors();
         $this->assertDatabaseHas('labels', [
             'name' => $labelNameToStore,
         ]);
@@ -47,16 +48,19 @@ class LabelControllerTest extends TestCase
     public function testEdit(): void
     {
         $response = $this->actingAs($this->user)->get(route('labels.edit', $this->label->id));
+
+        $response->assertSessionHasNoErrors();
         $response->assertOk();
     }
 
     public function testUpdate(): void
     {
         $labelNewName = 'Example label name to update';
-        $this->actingAs($this->user)->put(route('labels.update', $this->label->id), [
+        $response = $this->actingAs($this->user)->put(route('labels.update', $this->label->id), [
             'name' => $labelNewName,
         ]);
 
+        $response->assertSessionHasNoErrors();
         $this->assertDatabaseHas('labels', [
             'name' => $labelNewName,
         ]);

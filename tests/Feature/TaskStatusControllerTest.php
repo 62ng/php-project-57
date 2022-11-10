@@ -35,10 +35,11 @@ class TaskStatusControllerTest extends TestCase
     public function testStore(): void
     {
         $statusNameToStore = 'Example status name to store';
-        $this->actingAs($this->user)->post(route('task_statuses.store'), [
+        $response = $this->actingAs($this->user)->post(route('task_statuses.store'), [
             'name' => $statusNameToStore,
         ]);
 
+        $response->assertSessionHasNoErrors();
         $this->assertDatabaseHas('task_statuses', [
             'name' => $statusNameToStore,
         ]);
@@ -53,10 +54,11 @@ class TaskStatusControllerTest extends TestCase
     public function testUpdate(): void
     {
         $statusNewName = 'Example status name to update';
-        $this->actingAs($this->user)->put(route('task_statuses.update', $this->status->id), [
+        $response = $this->actingAs($this->user)->put(route('task_statuses.update', $this->status->id), [
             'name' => $statusNewName,
         ]);
 
+        $response->assertSessionHasNoErrors();
         $this->assertDatabaseHas('task_statuses', [
             'name' => $statusNewName,
         ]);
