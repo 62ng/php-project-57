@@ -11,17 +11,14 @@ class TaskStatusControllerTest extends TestCase
 {
     use RefreshDatabase;
 
-    public string $statusName;
     public TaskStatus $status;
 
     public function setUp(): void
     {
         parent::setUp();
 
-        $this->statusName = 'Example status name';
-
         $this->status = new TaskStatus();
-        $this->status->name = $this->statusName;
+        $this->status->name = 'Example status name';
         $this->status->save();
     }
 
