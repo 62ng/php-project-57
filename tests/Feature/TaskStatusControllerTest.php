@@ -2,47 +2,43 @@
 
 namespace Tests\Feature;
 
+use App\Models\Task;
 use App\Models\TaskStatus;
 use App\Models\User;
 use Tests\TestCase;
 
 class TaskStatusControllerTest extends TestCase
 {
+    public User $user;
     public TaskStatus $status;
 
     public function setUp(): void
     {
         parent::setUp();
 
-        $this->status = new TaskStatus();
-        $this->status->name = 'Example status name';
-        $this->status->save();
+        $this->user = User::factory()->create();
+        $this->status = TaskStatus::factory()->create();
     }
 
     public function testIndex(): void
     {
         $response = $this->get(route('task_statuses.index'));
-
         $response->assertOk();
     }
 
     public function testCreate(): void
     {
         $response = $this->get(route('task_statuses.create'));
-
         $response->assertForbidden();
 
-        $user = User::factory()->create();
-        $response = $this->actingAs($user)->get(route('task_statuses.create'));
-
+        $response = $this->actingAs($this->user)->get(route('task_statuses.create'));
         $response->assertOk();
     }
 
     public function testStore(): void
     {
         $statusNameToStore = 'Example status name to store';
-        $user = User::factory()->create();
-        $this->actingAs($user)->post(route('task_statuses.store'), [
+        $this->actingAs($this->user)->post(route('task_statuses.store'), [
             'name' => $statusNameToStore,
         ]);
 
@@ -54,20 +50,16 @@ class TaskStatusControllerTest extends TestCase
     public function testEdit(): void
     {
         $response = $this->get(route('task_statuses.edit', $this->status->id));
-
         $response->assertForbidden();
 
-        $user = User::factory()->create();
-        $response = $this->actingAs($user)->get(route('task_statuses.edit', $this->status->id));
-
+        $response = $this->actingAs($this->user)->get(route('task_statuses.edit', $this->status->id));
         $response->assertOk();
     }
 
     public function testUpdate(): void
     {
         $statusNewName = 'Example status name to update';
-        $user = User::factory()->create();
-        $this->actingAs($user)->put(route('task_statuses.update', $this->status->id), [
+        $this->actingAs($this->user)->put(route('task_statuses.update', $this->status->id), [
             'name' => $statusNewName,
         ]);
 
@@ -78,9 +70,18 @@ class TaskStatusControllerTest extends TestCase
 
     public function testDestroy(): void
     {
-        $user = User::factory()->create();
-        $this->actingAs($user)->delete(route('task_statuses.destroy', $this->status->id));
+        Task::factory()->create([
+            'status_id' => $this->status->id,
+        ]);
 
-        $this->assertModelMissing($this->status);
+        $response = $this->delete(route('task_statuses.destroy', $this->status->id));
+        $response->assertForbidden();
+
+        $this->actingAs($this->user)->delete(route('task_statuses.destroy', $this->status->id));
+        $this->assertModelExists($this->status);
+
+        $statusWithoutTask = TaskStatus::factory()->create();
+        $this->actingAs($this->user)->delete(route('task_statuses.destroy', $statusWithoutTask->id));
+        $this->assertModelMissing($statusWithoutTask);
     }
 }
