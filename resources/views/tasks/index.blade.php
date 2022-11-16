@@ -48,7 +48,7 @@
                         @auth
                             <td>
                                 <a href="{{ route('tasks.edit', $task->id) }}">{{ __('interface.task_link_update') }}</a>
-                                @can('destroy-task', $task)
+                                @can('delete', $task)
                                     <a href="{{ route('tasks.destroy', $task->id) }}" data-confirm="{{ __('interface.are_you_sure') }}" data-method="delete" rel="nofollow">{{ __('interface.task_link_delete') }}</a>
                                 @endcan
                             </td>
