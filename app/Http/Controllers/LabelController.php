@@ -5,14 +5,17 @@ namespace App\Http\Controllers;
 use App\Models\Label;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
 use Illuminate\View\View;
 
 class LabelController extends Controller
 {
+    public function __construct()
+    {
+        $this->authorizeResource(Label::class, 'label');
+    }
+
     public function index(): View
     {
         $labels = Label::all();
@@ -22,15 +25,11 @@ class LabelController extends Controller
 
     public function create(): View
     {
-        Gate::allowIf(fn () => Auth::check());
-
         return view('labels.create');
     }
 
     public function store(Request $request): RedirectResponse
     {
-        Gate::allowIf(fn () => Auth::check());
-
         $validator = Validator::make(
             $request->all(),
             [
@@ -59,15 +58,11 @@ class LabelController extends Controller
 
     public function edit(Label $label): View
     {
-        Gate::allowIf(fn () => Auth::check());
-
         return view('labels.edit', compact('label'));
     }
 
     public function update(Request $request, Label $label): RedirectResponse
     {
-        Gate::allowIf(fn () => Auth::check());
-
         $validator = Validator::make(
             $request->all(),
             [
@@ -99,15 +94,14 @@ class LabelController extends Controller
 
     public function destroy(Label $label): RedirectResponse
     {
-        Gate::allowIf(fn () => Auth::check());
-
-        if (Gate::allows('destroy-label', $label)) {
+        if ($label->tasks()->exists()) {
             flash(__('interface.label_not_free'))->error();
-        } else {
-            $label->delete();
 
-            flash(__('interface.label_deleted'))->success();
+            return back();
         }
+
+        $label->delete();
+        flash(__('interface.label_deleted'))->success();
 
         return redirect(route('labels.index'));
     }

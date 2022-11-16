@@ -5,14 +5,17 @@ namespace App\Http\Controllers;
 use App\Models\TaskStatus;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
 use Illuminate\View\View;
 
 class TaskStatusController extends Controller
 {
+    public function __construct()
+    {
+        $this->authorizeResource(TaskStatus::class, 'task_status');
+    }
+
     public function index(): View
     {
         $statuses = TaskStatus::all()->toArray();
@@ -22,15 +25,11 @@ class TaskStatusController extends Controller
 
     public function create(Request $request): View
     {
-        Gate::allowIf(fn () => Auth::check());
-
         return view('task_statuses.create');
     }
 
     public function store(Request $request): RedirectResponse
     {
-        Gate::allowIf(fn () => Auth::check());
-
         $validator = Validator::make(
             $request->all(),
             [
@@ -58,15 +57,11 @@ class TaskStatusController extends Controller
 
     public function edit(TaskStatus $taskStatus): View
     {
-        Gate::allowIf(fn () => Auth::check());
-
         return view('task_statuses.edit', compact('taskStatus'));
     }
 
     public function update(Request $request, TaskStatus $taskStatus): RedirectResponse
     {
-        Gate::allowIf(fn () => Auth::check());
-
         $validator = Validator::make(
             $request->all(),
             [
@@ -97,15 +92,14 @@ class TaskStatusController extends Controller
 
     public function destroy(TaskStatus $taskStatus): RedirectResponse
     {
-        Gate::allowIf(fn () => Auth::check());
-
-        if (Gate::allows('destroy-status', $taskStatus)) {
+        if ($taskStatus->task()->exists()) {
             flash(__('interface.status_not_free'))->error();
-        } else {
-            $taskStatus->delete();
 
-            flash(__('interface.status_deleted'))->success();
+            return back();
         }
+
+        $taskStatus->delete();
+        flash(__('interface.status_deleted'))->success();
 
         return redirect(route('task_statuses.index'));
     }

@@ -2,13 +2,7 @@
 
 namespace App\Providers;
 
-// use Illuminate\Support\Facades\Gate;
-use App\Models\Label;
-use App\Models\Task;
-use App\Models\TaskStatus;
-use App\Models\User;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
-use Illuminate\Support\Facades\Gate;
 
 class AuthServiceProvider extends ServiceProvider
 {
@@ -18,7 +12,7 @@ class AuthServiceProvider extends ServiceProvider
      * @var array<class-string, class-string>
      */
     protected $policies = [
-        // 'App\Models\Model' => 'App\Policies\ModelPolicy',
+//         'App\Models\Label' => 'App\Policies\LabelPolicy',
     ];
 
     /**
@@ -29,17 +23,5 @@ class AuthServiceProvider extends ServiceProvider
     public function boot()
     {
         $this->registerPolicies();
-
-        Gate::define('destroy-task', function (User $user, Task $task) {
-            return $user->id === $task->created_by_id;
-        });
-
-        Gate::define('destroy-status', function (User $user, TaskStatus $taskStatus) {
-            return $taskStatus->task()->exists();
-        });
-
-        Gate::define('destroy-label', function (User $user, Label $label) {
-            return $label->tasks()->exists();
-        });
     }
 }

@@ -9,7 +9,6 @@ use App\Models\User;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
 use Illuminate\View\View;
@@ -18,6 +17,11 @@ use Spatie\QueryBuilder\QueryBuilder;
 
 class TaskController extends Controller
 {
+    public function __construct()
+    {
+        $this->authorizeResource(Task::class, 'task');
+    }
+
     public function index(Request $request): View
     {
         $tasks = QueryBuilder::for(Task::class)
@@ -44,8 +48,6 @@ class TaskController extends Controller
 
     public function create(): View
     {
-        Gate::allowIf(fn () => Auth::check());
-
         $users = User::pluck('name', 'id')->toArray();
         $statuses = TaskStatus::pluck('name', 'id')->toArray();
         $labels = Label::pluck('name', 'id')->toArray();
@@ -55,8 +57,6 @@ class TaskController extends Controller
 
     public function store(Request $request): RedirectResponse
     {
-        Gate::allowIf(fn () => Auth::check());
-
         $validator = Validator::make(
             $request->all(),
             [
@@ -94,8 +94,6 @@ class TaskController extends Controller
 
     public function edit(Task $task): View
     {
-        Gate::allowIf(fn () => Auth::check());
-
         $users = User::pluck('name', 'id')->toArray();
         $statuses = TaskStatus::pluck('name', 'id')->toArray();
         $labels = Label::pluck('name', 'id')->toArray();
@@ -105,8 +103,6 @@ class TaskController extends Controller
 
     public function update(Request $request, Task $task): RedirectResponse
     {
-        Gate::allowIf(fn () => Auth::check());
-
         $validator = Validator::make(
             $request->all(),
             [
@@ -141,12 +137,8 @@ class TaskController extends Controller
         return redirect(route('tasks.index'));
     }
 
-    public function destroy(Task $task): RedirectResponse
+    public function destroy(Task $task, User $user): RedirectResponse
     {
-        if (! Gate::allows('destroy-task', $task)) {
-            abort(403);
-        }
-
         $task->labels()->detach();
         $task->delete();
 
